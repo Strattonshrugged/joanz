@@ -1,0 +1,10 @@
+<div class="ib fl tac">
+  <img class="tile" data-bind="css: { selected: selected(), unselected: !selected()}, attr: { src: imgUrl }, click: $parent.selectLettering">
+  <div class="imglabel">
+    <label class="tileLabel" data-bind="text: label, css: { selected: selected() }"></label>
+  </div>
+  <div class="fullwidth" data-bind="visible: selected()">
+    <input class="fullwidth" data-bind="textInput: lettering" placeholder="(enter letters here)"></input>
+    <div data-bind="text: remaining"></div>
+  </div>
+</div>
