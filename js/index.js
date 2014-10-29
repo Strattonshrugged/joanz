@@ -5,17 +5,94 @@
   CharmsViewModel = (function() {
 
     function CharmsViewModel() {
+      var _this = this;
       this.charms = [
         {
           type: 'Single Charm',
           imgUrl: 'images/single_charm_select.jpg',
-          url: 'customize.php?type=single'
+          url: 'customize.php?type=single',
+          selected: ko.observable(true)
         }, {
           type: 'Double Charm',
           imgUrl: 'images/double_charm_select.jpg',
-          url: 'customize.php?type=double'
+          url: 'customize.php?type=double',
+          selected: ko.observable(false)
         }
       ];
+      this.letterings = [
+        {
+          imgUrl: 'images/single_charm_select.jpg',
+          label: 'small letters',
+          selected: ko.observable(true),
+          lettering: ko.observable('hello')
+        }, {
+          imgUrl: 'images/single_charm_select.jpg',
+          label: 'LARGE letters',
+          selected: ko.observable(false),
+          lettering: ko.observable('hello')
+        }, {
+          imgUrl: 'images/single_charm_select.jpg',
+          label: 'MiXeD letters',
+          selected: ko.observable(false),
+          lettering: ko.observable('hello')
+        }
+      ];
+      this.borders = [
+        {
+          imgUrl: 'images/single_charm_select.jpg',
+          label: 'Yes, please add a dot border',
+          selected: ko.observable(true)
+        }, {
+          imgUrl: 'images/single_charm_select.jpg',
+          label: 'No border, please',
+          selected: ko.observable(false)
+        }
+      ];
+      this.letterings[0].remaining = ko.computed(function(foo) {
+        var left;
+        left = 10 - _this.letterings[0].lettering().length;
+        return left + ' characters remaining';
+      });
+      this.letterings[1].remaining = ko.computed(function(foo) {
+        var left;
+        left = 10 - _this.letterings[1].lettering().length;
+        return left + ' characters remaining';
+      });
+      this.letterings[2].remaining = ko.computed(function(foo) {
+        var left;
+        left = 10 - _this.letterings[2].lettering().length;
+        return left + ' characters remaining';
+      });
+      this.selectCharm = function(selectedCharm, event) {
+        var charm, _i, _len, _ref, _results;
+        _ref = _this.charms;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          charm = _ref[_i];
+          _results.push(charm.selected(charm.type === selectedCharm.type));
+        }
+        return _results;
+      };
+      this.selectLettering = function(selectedLettering, event) {
+        var lettering, _i, _len, _ref, _results;
+        _ref = _this.letterings;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          lettering = _ref[_i];
+          _results.push(lettering.selected(lettering.label === selectedLettering.label));
+        }
+        return _results;
+      };
+      this.selectBorder = function(selectedBorder, event) {
+        var border, _i, _len, _ref, _results;
+        _ref = _this.borders;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          border = _ref[_i];
+          _results.push(border.selected(border.label === selectedBorder.label));
+        }
+        return _results;
+      };
     }
 
     return CharmsViewModel;

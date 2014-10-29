@@ -1,6 +1,6 @@
-<div class="ib">
-  <a data-bind="attr: { href: url }">
-    <img class="tile" data-bind="attr: { src: imgUrl }">
-  </a>
-  <div class="imglabel" data-bind="text: type"></div>
+<div class="ib fl tac">
+  <img class="tile" data-bind="css: { selected: selected(), unselected: !selected()}, attr: { src: imgUrl }, click: $parent.selectCharm">
+  <div class="imglabel">
+    <label class="tileLabel" data-bind="text: type, css: { selected: selected() }"></div>
+  </div>
 </div>
