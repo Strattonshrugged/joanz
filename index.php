@@ -28,6 +28,14 @@
       <?php include 'templates/charm_border.html'; ?>
     </script>
 
+    <script type="text/html" id="charm-chain-template">
+      <?php include 'templates/charm_chain.html'; ?>
+    </script>
+
+    <script type="text/html" id="charm-heart-template">
+      <?php include 'templates/charm_heart.html'; ?>
+    </script>
+
   </head>
   <body>
     <div data-bind="template: { name: 'header-template' }"></div>
@@ -57,6 +65,51 @@
       <div class="small-12 columns">
         <h3 class="stepheader">Step 3. Add a dot border?</h3>
         <div data-bind="template: { name: 'charm-border-template', foreach: borders }"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-12 columns">
+        <h3 class="stepheader">Step 4. Choose a chain</h3>
+        <div data-bind="template: { name: 'charm-chain-template', foreach: chains }"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-12 columns">
+        <h3 class="stepheader">Step 5. Add a heart spacer charm?</h3>
+        <div data-bind="template: { name: 'charm-heart-template', foreach: hearts }"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-12 columns">
+        <h3 class="stepheader">Necklace Summary</h3>
+        <form>
+          <table data-bind="with: selectedSummary">
+            <tr>
+              <td class="summarylabel">Charm Style</td>
+              <td><span data-bind="text: charmStyle"></span></td>
+            </tr>
+            <tr>
+              <td class="summarylabel">Charm Lettering</td>
+              <td><span data-bind="text: letteringStyle"></span></td>
+            </tr>
+            <tr>
+              <td class="summarylabel">Border Style</td>
+              <td><span data-bind="text: borderStyle"></span></td>
+            </tr>
+            <tr>
+              <td class="summarylabel">Chain Type</td>
+              <td><span data-bind="text: chainStyle"></span></td>
+            </tr>
+            <tr>
+              <td class="summarylabel">Include Heart Charm</td>
+              <td><span data-bind="text: includeHeart"></span></td>
+            </tr>
+          </table>
+          <input type="submit" class="button radius" value="Add to Cart">
+        </form>
       </div>
     </div>
 

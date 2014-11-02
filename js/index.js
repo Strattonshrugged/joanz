@@ -11,12 +11,14 @@
           type: 'Single Charm',
           imgUrl: 'images/single_charm_select.jpg',
           url: 'customize.php?type=single',
-          selected: ko.observable(true)
+          selected: ko.observable(true),
+          summaryNote: 'Single'
         }, {
           type: 'Double Charm',
           imgUrl: 'images/double_charm_select.jpg',
           url: 'customize.php?type=double',
-          selected: ko.observable(false)
+          selected: ko.observable(false),
+          summaryNote: 'Double'
         }
       ];
       this.letterings = [
@@ -24,28 +26,63 @@
           imgUrl: 'images/single_charm_select.jpg',
           label: 'small letters',
           selected: ko.observable(true),
-          lettering: ko.observable('hello')
+          lettering: ko.observable('hello'),
+          summaryNote: 'Small Letters'
         }, {
           imgUrl: 'images/single_charm_select.jpg',
           label: 'LARGE letters',
           selected: ko.observable(false),
-          lettering: ko.observable('hello')
+          lettering: ko.observable('hello'),
+          summaryNote: 'Large Letters'
         }, {
           imgUrl: 'images/single_charm_select.jpg',
           label: 'MiXeD letters',
           selected: ko.observable(false),
-          lettering: ko.observable('hello')
+          lettering: ko.observable('hello'),
+          summaryNote: 'Mixed Letters'
         }
       ];
       this.borders = [
         {
           imgUrl: 'images/single_charm_select.jpg',
           label: 'Yes, please add a dot border',
-          selected: ko.observable(true)
+          selected: ko.observable(true),
+          summaryNote: 'Dotted Border'
         }, {
           imgUrl: 'images/single_charm_select.jpg',
           label: 'No border, please',
-          selected: ko.observable(false)
+          selected: ko.observable(false),
+          summaryNote: 'No Border'
+        }
+      ];
+      this.chains = [
+        {
+          imgUrl: 'images/single_charm_select.jpg',
+          label: 'Ball Chain (20 inches)',
+          sublabel: '$23.00',
+          selected: ko.observable(true),
+          summaryNote: '20-inche ball chain'
+        }, {
+          imgUrl: 'images/single_charm_select.jpg',
+          label: 'Ball Chain (7 inches)',
+          sublabel: '12.00',
+          selected: ko.observable(false),
+          summaryNote: '7-inche ball chain'
+        }
+      ];
+      this.hearts = [
+        {
+          imgUrl: 'images/single_charm_select.jpg',
+          label: 'Yes, add a heart charm',
+          sublabel: '+20.00',
+          selected: ko.observable(false),
+          summaryNote: 'Yes'
+        }, {
+          imgUrl: 'images/single_charm_select.jpg',
+          label: 'No heart charm, please',
+          sublabel: '',
+          selected: ko.observable(true),
+          summaryNote: 'No'
         }
       ];
       this.letterings[0].remaining = ko.computed(function(foo) {
@@ -93,6 +130,69 @@
         }
         return _results;
       };
+      this.selectChain = function(selectedChain, event) {
+        var chain, _i, _len, _ref, _results;
+        _ref = _this.chains;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          chain = _ref[_i];
+          _results.push(chain.selected(chain.label === selectedChain.label));
+        }
+        return _results;
+      };
+      this.selectHeart = function(selectedHeart, event) {
+        var heart, _i, _len, _ref, _results;
+        _ref = _this.hearts;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          heart = _ref[_i];
+          _results.push(heart.selected(heart.label === selectedHeart.label));
+        }
+        return _results;
+      };
+      this.selectedSummary = ko.computed(function() {
+        var border, borderStyle, chain, chainStyle, charm, charmStyle, includeHeart, lettering, letteringStyle, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3;
+        _ref = _this.charms;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          charm = _ref[_i];
+          if (charm.selected()) {
+            charmStyle = charm.summaryNote;
+          }
+        }
+        _ref1 = _this.letterings;
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          lettering = _ref1[_j];
+          if (lettering.selected()) {
+            letteringStyle = lettering.summaryNote;
+          }
+        }
+        _ref2 = _this.borders;
+        for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+          border = _ref2[_k];
+          if (border.selected()) {
+            borderStyle = border.summaryNote;
+          }
+        }
+        _ref3 = _this.chains;
+        for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
+          chain = _ref3[_l];
+          if (chain.selected()) {
+            chainStyle = chain.summaryNote;
+          }
+        }
+        if (_this.hearts[0].selected()) {
+          includeHeart = _this.hearts[0].summaryNote;
+        } else {
+          includeHeart = _this.hearts[1].summaryNote;
+        }
+        return {
+          charmStyle: charmStyle,
+          letteringStyle: letteringStyle,
+          borderStyle: borderStyle,
+          chainStyle: chainStyle,
+          includeHeart: includeHeart
+        };
+      });
     }
 
     return CharmsViewModel;
