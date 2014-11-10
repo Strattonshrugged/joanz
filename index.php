@@ -96,6 +96,10 @@
               <td><span data-bind="text: letteringStyle"></span></td>
             </tr>
             <tr>
+              <td class="summarylabel">Charm Text</td>
+              <td><span data-bind="text: letteringStyle"></span></td>
+            </tr>
+            <tr>
               <td class="summarylabel">Border Style</td>
               <td><span data-bind="text: borderStyle"></span></td>
             </tr>

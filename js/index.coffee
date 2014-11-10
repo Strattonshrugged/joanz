@@ -3,14 +3,14 @@ class CharmsViewModel
         @charms = [
             { 
                 type: 'Single Charm' 
-                imgUrl:  'images/single_charm_select.jpg'
+                imgUrl:  'images/single_charm.jpg'
                 url: 'customize.php?type=single'
                 selected: ko.observable(true)
                 summaryNote: 'Single'
             }
             { 
                 type: 'Double Charm' 
-                imgUrl:  'images/double_charm_select.jpg'
+                imgUrl:  'images/double_charm.jpg'
                 url: 'customize.php?type=double'
                 selected: ko.observable(false)
                 summaryNote: 'Double'
@@ -18,21 +18,21 @@ class CharmsViewModel
         ]
         @letterings = [
             { 
-                imgUrl:  'images/single_charm_select.jpg'
+                imgUrl:  'images/small_type.jpg'
                 label: 'small letters'
                 selected: ko.observable(true)
                 lettering: ko.observable('hello')
                 summaryNote: 'Small Letters'
             }
             { 
-                imgUrl:  'images/single_charm_select.jpg'
+                imgUrl:  'images/large_type.jpg'
                 label: 'LARGE letters'
                 selected: ko.observable(false)
                 lettering: ko.observable('hello')
                 summaryNote: 'Large Letters'
             }
             {
-                imgUrl:  'images/single_charm_select.jpg'
+                imgUrl:  'images/mixed_type.jpg'
                 label: 'MiXeD letters'
                 selected: ko.observable(false)
                 lettering: ko.observable('hello')
@@ -41,13 +41,13 @@ class CharmsViewModel
         ]
         @borders = [
             {
-                imgUrl: 'images/single_charm_select.jpg'
+                imgUrl: 'images/dots.jpg'
                 label: 'Yes, please add a dot border'
                 selected: ko.observable(true)
                 summaryNote: 'Dotted Border'
             }
             {
-                imgUrl: 'images/single_charm_select.jpg'
+                imgUrl: 'images/no_dots.jpg'
                 label: 'No border, please'
                 selected: ko.observable(false)
                 summaryNote: 'No Border'
@@ -55,14 +55,14 @@ class CharmsViewModel
         ]
         @chains = [
             {
-                imgUrl: 'images/single_charm_select.jpg'
+                imgUrl: 'images/7_inch_chain.jpg'
                 label: 'Ball Chain (20 inches)'
                 sublabel: '$23.00'
                 selected: ko.observable(true)
                 summaryNote: '20-inche ball chain'
             }
             {
-                imgUrl: 'images/single_charm_select.jpg'
+                imgUrl: 'images/20_inch_chain.jpg'
                 label: 'Ball Chain (7 inches)'
                 sublabel: '12.00'
                 selected: ko.observable(false)
@@ -71,9 +71,9 @@ class CharmsViewModel
         ]
         @hearts = [
             {
-                imgUrl: 'images/single_charm_select.jpg'
+                imgUrl: 'images/heart_charm_spacer.jpg'
                 label: 'Yes, add a heart charm'
-                sublabel: '+20.00'
+                sublabel: '+$20.00'
                 selected: ko.observable(false)
                 summaryNote: 'Yes'
             }
