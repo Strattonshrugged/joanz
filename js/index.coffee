@@ -56,17 +56,17 @@ class CharmsViewModel
         @chains = [
             {
                 imgUrl: 'images/7_inch_chain.jpg'
-                label: 'Ball Chain (20 inches)'
-                sublabel: '$23.00'
-                selected: ko.observable(true)
-                summaryNote: '20-inche ball chain'
-            }
-            {
-                imgUrl: 'images/20_inch_chain.jpg'
                 label: 'Ball Chain (7 inches)'
                 sublabel: '12.00'
                 selected: ko.observable(false)
                 summaryNote: '7-inche ball chain'
+            }
+            {
+                imgUrl: 'images/20_inch_chain.jpg'
+                label: 'Ball Chain (20 inches)'
+                sublabel: '$23.00'
+                selected: ko.observable(true)
+                summaryNote: '20-inche ball chain'
             }
         ]
         @hearts = [
@@ -148,14 +148,58 @@ class CharmsViewModel
                 borderStyle: borderStyle
                 chainStyle: chainStyle
                 includeHeart: includeHeart
+                price: '$39'
             }
         )
-        
 
+        # initialize the shopping cart from pre-existing cookie
+        cart = @_getShoppingCartData()
+        console.log(cart)
+        @shoppingCart = ko.observableArray([])
+
+        @addToCart = (viewModel, event) ->
+            item = viewModel.selectedSummary()
+
+            cart = @_getShoppingCartData()
+            cart.push(item)
+            @activeCart(cart)
+
+            # also store it locally for page reloads
+            @_setShoppingCartData(cart)
+
+        @emptyCart = (viewModel, event) ->
+            @activeCart([]
+
+            # also clear the data stored in the browser
+            @_setShoppingCartData([])
+
+        # initialize the cart with what's stored locally
+        @activeCart = ko.observableArray(@_getShoppingCartData())
+
+        @hasCartItems = ko.computed(=>
+            return @activeCart().length > 0
+        )
+
+    # retrieves the cart data stored as JSON in a cookie and returns
+    # it as a javascript object
+    _getShoppingCartData: ->
+        dataStr = $.cookie('shopping_cart')
+        return [] unless dataStr?
+        
+        data = JSON.parse(dataStr)
+        if not Array.isArray(data)
+            console.log('no shopping cart data')
+            data = []
+
+        return data
+
+    # converts the shopping cart data to JSON and stores it in a cookie
+    _setShoppingCartData: (data) ->
+        console.log('setting shopping cart data')
+        $.cookie('shopping_cart', JSON.stringify(data))
 
 ready = ->
     ko.applyBindings(new CharmsViewModel())
-
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

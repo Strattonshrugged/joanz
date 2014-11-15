@@ -5,7 +5,8 @@
   CharmsViewModel = (function() {
 
     function CharmsViewModel() {
-      var _this = this;
+      var cart,
+        _this = this;
       this.charms = [
         {
           type: 'Single Charm',
@@ -58,16 +59,16 @@
       this.chains = [
         {
           imgUrl: 'images/7_inch_chain.jpg',
-          label: 'Ball Chain (20 inches)',
-          sublabel: '$23.00',
-          selected: ko.observable(true),
-          summaryNote: '20-inche ball chain'
-        }, {
-          imgUrl: 'images/20_inch_chain.jpg',
           label: 'Ball Chain (7 inches)',
           sublabel: '12.00',
           selected: ko.observable(false),
           summaryNote: '7-inche ball chain'
+        }, {
+          imgUrl: 'images/20_inch_chain.jpg',
+          label: 'Ball Chain (20 inches)',
+          sublabel: '$23.00',
+          selected: ko.observable(true),
+          summaryNote: '20-inche ball chain'
         }
       ];
       this.hearts = [
@@ -190,10 +191,48 @@
           letteringStyle: letteringStyle,
           borderStyle: borderStyle,
           chainStyle: chainStyle,
-          includeHeart: includeHeart
+          includeHeart: includeHeart,
+          price: '$39'
         };
       });
+      cart = this._getShoppingCartData();
+      console.log(cart);
+      this.shoppingCart = ko.observableArray([]);
+      this.addToCart = function(viewModel, event) {
+        var item;
+        item = viewModel.selectedSummary();
+        cart = this._getShoppingCartData();
+        cart.push(item);
+        this.activeCart(cart);
+        return this._setShoppingCartData(cart);
+      };
+      this.emptyCart = function(viewModel, event) {
+        return this._setShoppingCartData([]);
+      };
+      this.activeCart = ko.observableArray(this._getShoppingCartData());
+      this.hasCartItems = ko.computed(function() {
+        return _this.activeCart().length > 0;
+      });
     }
+
+    CharmsViewModel.prototype._getShoppingCartData = function() {
+      var data, dataStr;
+      dataStr = $.cookie('shopping_cart');
+      if (dataStr == null) {
+        return [];
+      }
+      data = JSON.parse(dataStr);
+      if (!Array.isArray(data)) {
+        console.log('no shopping cart data');
+        data = [];
+      }
+      return data;
+    };
+
+    CharmsViewModel.prototype._setShoppingCartData = function(data) {
+      console.log('setting shopping cart data');
+      return $.cookie('shopping_cart', JSON.stringify(data));
+    };
 
     return CharmsViewModel;
 

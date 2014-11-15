@@ -4,6 +4,7 @@
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.2.0/knockout-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="css/foundation.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
@@ -34,6 +35,10 @@
 
     <script type="text/html" id="charm-heart-template">
       <?php include 'templates/charm_heart.html'; ?>
+    </script>
+
+    <script type="text/html" id="cart-item-template">
+      <?php include 'templates/cart_item.html'; ?>
     </script>
 
   </head>
@@ -111,9 +116,27 @@
               <td class="summarylabel">Include Heart Charm</td>
               <td><span data-bind="text: includeHeart"></span></td>
             </tr>
+            <tr>
+              <td class="summarylabel">Price</td>
+              <td><span data-bind="text: price"></span></td>
+            </tr>
           </table>
-          <input type="submit" class="button radius" value="Add to Cart">
+          <button class="radius" data-bind="click: addToCart">Add to Cart</button>
         </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-12 columns">
+        <div data-bind="visible: hasCartItems()">
+          <h3 class="stepheader">Checkout</h3>
+
+          <div data-bind="template: { name: 'cart-item-template', foreach: activeCart }"></div>
+
+          <button class="radius" data-bind="click: emptyCart">Clear Cart</button>
+          <div>
+          </div>
+        </div>
       </div>
     </div>
 
