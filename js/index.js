@@ -69,6 +69,12 @@
           sublabel: '$23.00',
           selected: ko.observable(true),
           summaryNote: '20-inche ball chain'
+        }, {
+          imgUrl: 'images/no_chain.jpg',
+          label: 'No Chain',
+          sublabel: '',
+          selected: ko.observable(false),
+          summaryNote: '(chain not included)'
         }
       ];
       this.hearts = [
@@ -206,7 +212,15 @@
         this.activeCart(cart);
         return this._setShoppingCartData(cart);
       };
+      this.removeItem = function(index) {
+        cart = _this._getShoppingCartData();
+        cart.splice(index, 1);
+        _this.activeCart(cart);
+        _this._setShoppingCartData(cart);
+        return console.log('removed index: ' + index);
+      };
       this.emptyCart = function(viewModel, event) {
+        this.activeCart([]);
         return this._setShoppingCartData([]);
       };
       this.activeCart = ko.observableArray(this._getShoppingCartData());

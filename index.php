@@ -131,7 +131,11 @@
         <div data-bind="visible: hasCartItems()">
           <h3 class="stepheader">Checkout</h3>
 
-          <div data-bind="template: { name: 'cart-item-template', foreach: activeCart }"></div>
+          <table class="cartTable">
+            <tbody data-bind="foreach: activeCart">
+              <td data-bind="template: { name: 'cart-item-template' }"></td>
+            </tbody>
+          </table>
 
           <button class="radius" data-bind="click: emptyCart">Clear Cart</button>
           <div>

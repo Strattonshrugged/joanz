@@ -1,0 +1,4 @@
+* make confirmation dialog w/ summary when adding to the cart
+* add summary to individual cart items
+* make confirmation dialog to clear the cart
+* send order to paypal

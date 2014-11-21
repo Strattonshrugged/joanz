@@ -79,18 +79,11 @@ body {
   text-align: right;
 }
 
-.cartItemCtn {
-  width: 50%;
-  height: 3em;
-
-}
-
-.cartItemCtn:nth-child(event)
-{
-  background: #CCC;
-}
-
 .removebtn {
   margin: 0px;
   float: right;
+}
+
+.cartTable {
+  width: 50%;
 }

@@ -68,6 +68,13 @@ class CharmsViewModel
                 selected: ko.observable(true)
                 summaryNote: '20-inche ball chain'
             }
+            {
+                imgUrl: 'images/no_chain.jpg'
+                label: 'No Chain'
+                sublabel: ''
+                selected: ko.observable(false)
+                summaryNote: '(chain not included)'
+            }
         ]
         @hearts = [
             {
@@ -167,8 +174,17 @@ class CharmsViewModel
             # also store it locally for page reloads
             @_setShoppingCartData(cart)
 
+        @removeItem = (index) =>
+            cart = @_getShoppingCartData()
+            cart.splice(index, 1)
+            @activeCart(cart)
+
+            # also update it locally for page reloads
+            @_setShoppingCartData(cart)
+            console.log('removed index: ' + index)
+
         @emptyCart = (viewModel, event) ->
-            @activeCart([]
+            @activeCart([])
 
             # also clear the data stored in the browser
             @_setShoppingCartData([])
