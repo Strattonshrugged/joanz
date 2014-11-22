@@ -1,3 +1,3 @@
-add item to cart
-<button class="removebtn radius tiny" data-bind="click: $parent.removeItem.bind($data, $index())">Remove from Cart</button>
+<span data-bind="html: $parent.summarizeItem($data)"></span>
+(<a href="javascript;" data-bind="click: $parent.removeItem.bind($data, $index())">remove from cart</a>)
 

@@ -27,19 +27,19 @@
           imgUrl: 'images/small_type.jpg',
           label: 'small letters',
           selected: ko.observable(true),
-          lettering: ko.observable('hello'),
+          lettering: ko.observable(''),
           summaryNote: 'Small Letters'
         }, {
           imgUrl: 'images/large_type.jpg',
           label: 'LARGE letters',
           selected: ko.observable(false),
-          lettering: ko.observable('hello'),
+          lettering: ko.observable(''),
           summaryNote: 'Large Letters'
         }, {
           imgUrl: 'images/mixed_type.jpg',
           label: 'MiXeD letters',
           selected: ko.observable(false),
-          lettering: ko.observable('hello'),
+          lettering: ko.observable(''),
           summaryNote: 'Mixed Letters'
         }
       ];
@@ -158,7 +158,7 @@
         return _results;
       };
       this.selectedSummary = ko.computed(function() {
-        var border, borderStyle, chain, chainStyle, charm, charmStyle, includeHeart, lettering, letteringStyle, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3;
+        var border, borderStyle, chain, chainStyle, charm, charmStyle, engraving, includeHeart, lettering, letteringStyle, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3;
         _ref = _this.charms;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           charm = _ref[_i];
@@ -171,6 +171,7 @@
           lettering = _ref1[_j];
           if (lettering.selected()) {
             letteringStyle = lettering.summaryNote;
+            engraving = lettering.lettering();
           }
         }
         _ref2 = _this.borders;
@@ -195,6 +196,7 @@
         return {
           charmStyle: charmStyle,
           letteringStyle: letteringStyle,
+          engraving: engraving,
           borderStyle: borderStyle,
           chainStyle: chainStyle,
           includeHeart: includeHeart,
@@ -202,10 +204,24 @@
         };
       });
       cart = this._getShoppingCartData();
-      console.log(cart);
       this.shoppingCart = ko.observableArray([]);
       this.addToCart = function(viewModel, event) {
-        var item;
+        var engraving, item, lettering, _i, _len, _ref;
+        _ref = viewModel.letterings;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          lettering = _ref[_i];
+          if (lettering.selected()) {
+            engraving = lettering.lettering();
+          }
+        }
+        if (engraving === "") {
+          engraving = "no engraving";
+        } else {
+          engraving = "engraving \"" + engraving + "\"";
+        }
+        if (!window.confirm("Are you sure you want to add this charm with " + engraving + " to the cart?")) {
+          return;
+        }
         item = viewModel.selectedSummary();
         cart = this._getShoppingCartData();
         cart.push(item);
@@ -213,20 +229,49 @@
         return this._setShoppingCartData(cart);
       };
       this.removeItem = function(index) {
+        if (!window.confirm("Are you sure you want to remove this item from your cart?")) {
+          return;
+        }
         cart = _this._getShoppingCartData();
         cart.splice(index, 1);
         _this.activeCart(cart);
-        _this._setShoppingCartData(cart);
-        return console.log('removed index: ' + index);
+        return _this._setShoppingCartData(cart);
       };
       this.emptyCart = function(viewModel, event) {
+        if (!window.confirm("Are you sure you remove all items from your cart?")) {
+          return;
+        }
         this.activeCart([]);
         return this._setShoppingCartData([]);
+      };
+      this.checkout = function(viewModel, event) {
+        return console.log('checkout!');
       };
       this.activeCart = ko.observableArray(this._getShoppingCartData());
       this.hasCartItems = ko.computed(function() {
         return _this.activeCart().length > 0;
       });
+      this.summarizeItem = function(item) {
+        var summary;
+        summary = "A <b>" + (item.charmStyle.toLowerCase()) + "</b> charm";
+        if (item.engraving === "") {
+          summary += " with no engraving.  ";
+        } else {
+          summary += " with a <b>" + (item.borderStyle.toLowerCase()) + "</b> engraved with <b>\"" + item.engraving + "\"</b>";
+          summary += " in <b>" + (item.letteringStyle.toLowerCase()) + "</b>.  ";
+        }
+        if (item.includeHeart !== "No") {
+          summary += "Includes a heart charm";
+          if (item.chainStyle !== "No Chain") {
+            summary += " and a " + (item.chainStyle.toLowerCase()) + ".";
+          } else {
+            summary += ".";
+          }
+        } else if (item.chainStyle !== "No Chain") {
+          summary += "Includes a " + (item.chainStyle.toLowerCase()) + ".";
+        }
+        return summary;
+      };
     }
 
     CharmsViewModel.prototype._getShoppingCartData = function() {
@@ -244,7 +289,6 @@
     };
 
     CharmsViewModel.prototype._setShoppingCartData = function(data) {
-      console.log('setting shopping cart data');
       return $.cookie('shopping_cart', JSON.stringify(data));
     };
 

@@ -1,4 +1,5 @@
-* make confirmation dialog w/ summary when adding to the cart
-* add summary to individual cart items
-* make confirmation dialog to clear the cart
+* limit number of letters enterable in different letterings
+* calculate total price correctly
+* show total price in shopping cart
+* add price individual cart item summaries
 * send order to paypal

@@ -88,7 +88,8 @@
     </div>
 
     <div class="row">
-      <div class="small-12 columns">
+      <!-- summary -->
+      <div class="small-6 columns">
         <h3 class="stepheader">Necklace Summary</h3>
         <form>
           <table data-bind="with: selectedSummary">
@@ -124,12 +125,11 @@
           <button class="radius" data-bind="click: addToCart">Add to Cart</button>
         </form>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="small-12 columns">
+      <!-- cart -->
+      <div class="small-6 columns">
         <div data-bind="visible: hasCartItems()">
-          <h3 class="stepheader">Checkout</h3>
+          <h3 class="stepheader">Shopping Cart</h3>
 
           <table class="cartTable">
             <tbody data-bind="foreach: activeCart">
@@ -137,11 +137,16 @@
             </tbody>
           </table>
 
-          <button class="radius" data-bind="click: emptyCart">Clear Cart</button>
+          <button class="radius" data-bind="click: checkout">Checkout</button>
+          <button class="tiny radius clearbtn" data-bind="click: emptyCart">Clear Cart</button>
           <div>
           </div>
         </div>
       </div>
+
+    </div>
+
+    <div class="row">
     </div>
 
   </body>

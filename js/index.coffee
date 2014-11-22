@@ -21,21 +21,21 @@ class CharmsViewModel
                 imgUrl:  'images/small_type.jpg'
                 label: 'small letters'
                 selected: ko.observable(true)
-                lettering: ko.observable('hello')
+                lettering: ko.observable('')
                 summaryNote: 'Small Letters'
             }
             { 
                 imgUrl:  'images/large_type.jpg'
                 label: 'LARGE letters'
                 selected: ko.observable(false)
-                lettering: ko.observable('hello')
+                lettering: ko.observable('')
                 summaryNote: 'Large Letters'
             }
             {
                 imgUrl:  'images/mixed_type.jpg'
                 label: 'MiXeD letters'
                 selected: ko.observable(false)
-                lettering: ko.observable('hello')
+                lettering: ko.observable('')
                 summaryNote: 'Mixed Letters'
             }
         ]
@@ -135,6 +135,7 @@ class CharmsViewModel
             for lettering in @letterings
                 if lettering.selected()
                     letteringStyle = lettering.summaryNote
+                    engraving = lettering.lettering()
 
             for border in @borders
                 if border.selected()
@@ -152,6 +153,7 @@ class CharmsViewModel
             return {
                 charmStyle: charmStyle
                 letteringStyle: letteringStyle
+                engraving: engraving
                 borderStyle: borderStyle
                 chainStyle: chainStyle
                 includeHeart: includeHeart
@@ -161,10 +163,19 @@ class CharmsViewModel
 
         # initialize the shopping cart from pre-existing cookie
         cart = @_getShoppingCartData()
-        console.log(cart)
         @shoppingCart = ko.observableArray([])
 
         @addToCart = (viewModel, event) ->
+            # get user confirmation before adding to the cart
+            for lettering in viewModel.letterings
+                if lettering.selected()
+                    engraving = lettering.lettering()
+            if engraving is ""
+                engraving = "no engraving"
+            else
+                engraving = "engraving \"#{engraving}\""
+            return unless window.confirm("Are you sure you want to add this charm with #{engraving} to the cart?")
+            
             item = viewModel.selectedSummary()
 
             cart = @_getShoppingCartData()
@@ -175,19 +186,25 @@ class CharmsViewModel
             @_setShoppingCartData(cart)
 
         @removeItem = (index) =>
+            return unless window.confirm("Are you sure you want to remove this item from your cart?")
+            
             cart = @_getShoppingCartData()
             cart.splice(index, 1)
             @activeCart(cart)
 
             # also update it locally for page reloads
             @_setShoppingCartData(cart)
-            console.log('removed index: ' + index)
 
         @emptyCart = (viewModel, event) ->
+            return unless window.confirm("Are you sure you remove all items from your cart?")
+            
             @activeCart([])
 
             # also clear the data stored in the browser
             @_setShoppingCartData([])
+
+        @checkout = (viewModel, event) ->
+            console.log('checkout!')
 
         # initialize the cart with what's stored locally
         @activeCart = ko.observableArray(@_getShoppingCartData())
@@ -195,6 +212,25 @@ class CharmsViewModel
         @hasCartItems = ko.computed(=>
             return @activeCart().length > 0
         )
+
+        @summarizeItem = (item) ->
+            summary = "A <b>#{item.charmStyle.toLowerCase()}</b> charm"
+            if item.engraving is ""
+                summary += " with no engraving.  "
+            else
+                summary += " with a <b>#{item.borderStyle.toLowerCase()}</b> engraved with <b>\"#{item.engraving}\"</b>"
+                summary += " in <b>#{item.letteringStyle.toLowerCase()}</b>.  "
+
+            if item.includeHeart isnt "No"
+                summary += "Includes a heart charm"
+                if item.chainStyle isnt "No Chain"
+                    summary += " and a #{item.chainStyle.toLowerCase()}."
+                else
+                    summary += "."
+            else if item.chainStyle isnt "No Chain"
+                summary += "Includes a #{item.chainStyle.toLowerCase()}."
+
+            return summary
 
     # retrieves the cart data stored as JSON in a cookie and returns
     # it as a javascript object
@@ -211,7 +247,7 @@ class CharmsViewModel
 
     # converts the shopping cart data to JSON and stores it in a cookie
     _setShoppingCartData: (data) ->
-        console.log('setting shopping cart data')
+        #console.log('setting shopping cart data')
         $.cookie('shopping_cart', JSON.stringify(data))
 
 ready = ->
