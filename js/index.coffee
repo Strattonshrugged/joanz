@@ -23,6 +23,7 @@ class CharmsViewModel
                 selected: ko.observable(true)
                 lettering: ko.observable('')
                 summaryNote: 'Small Letters'
+                maxLetters: 8
             }
             { 
                 imgUrl:  'images/large_type.jpg'
@@ -30,6 +31,7 @@ class CharmsViewModel
                 selected: ko.observable(false)
                 lettering: ko.observable('')
                 summaryNote: 'Large Letters'
+                maxLetters: 4
             }
             {
                 imgUrl:  'images/mixed_type.jpg'
@@ -37,6 +39,7 @@ class CharmsViewModel
                 selected: ko.observable(false)
                 lettering: ko.observable('')
                 summaryNote: 'Mixed Letters'
+                maxLetters: 5
             }
         ]
         @borders = [
@@ -57,14 +60,14 @@ class CharmsViewModel
             {
                 imgUrl: 'images/7_inch_chain.jpg'
                 label: 'Ball Chain (7 inches)'
-                sublabel: '12.00'
+                sublabel: '+$12.00'
                 selected: ko.observable(false)
                 summaryNote: '7-inche ball chain'
             }
             {
                 imgUrl: 'images/20_inch_chain.jpg'
                 label: 'Ball Chain (20 inches)'
-                sublabel: '$23.00'
+                sublabel: '+$23.00'
                 selected: ko.observable(true)
                 summaryNote: '20-inche ball chain'
             }
@@ -94,18 +97,11 @@ class CharmsViewModel
         ]
     
         # hacky: make computed after so we can reference observables
-        @letterings[0].remaining = ko.computed((foo) =>
-            left = 10 - @letterings[0].lettering().length
-            return left + ' characters remaining'
-        )
-        @letterings[1].remaining = ko.computed((foo) =>
-            left = 10 - @letterings[1].lettering().length
-            return left + ' characters remaining'
-        )
-        @letterings[2].remaining = ko.computed((foo) =>
-            left = 10 - @letterings[2].lettering().length
-            return left + ' characters remaining'
-        )
+        for lettering in @letterings
+            lettering.remaining = do (lettering) => ko.computed((foo) =>
+                left = lettering.maxLetters - lettering.lettering().length
+                return left + ' characters remaining'
+            )
 
         @selectCharm = (selectedCharm, event) =>
             for charm in @charms
@@ -251,6 +247,19 @@ class CharmsViewModel
         $.cookie('shopping_cart', JSON.stringify(data))
 
 ready = ->
+    # ported from stackoverflow question comment
+    # http://stackoverflow.com/questions/12982587/how-to-build-a-textarea-with-character-counter-and-max-length
+    # http://jsfiddle.net/R3Pxf/
+    limitCharacters = (element, valueAccessor, allBindings, viewModel) =>
+        allowedNumberOfCharacters = valueAccessor()
+        currentValue = allBindings.get('textInput')
+        cutText = ko.unwrap(currentValue).substr(0, allowedNumberOfCharacters)
+        currentValue(cutText)
+
+    ko.bindingHandlers.limitCharacters = {
+        update: limitCharacters
+    }
+    
     ko.applyBindings(new CharmsViewModel())
 
 $(document).ready(ready)

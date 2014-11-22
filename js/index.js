@@ -5,7 +5,7 @@
   CharmsViewModel = (function() {
 
     function CharmsViewModel() {
-      var cart,
+      var cart, lettering, _i, _len, _ref,
         _this = this;
       this.charms = [
         {
@@ -28,19 +28,22 @@
           label: 'small letters',
           selected: ko.observable(true),
           lettering: ko.observable(''),
-          summaryNote: 'Small Letters'
+          summaryNote: 'Small Letters',
+          maxLetters: 8
         }, {
           imgUrl: 'images/large_type.jpg',
           label: 'LARGE letters',
           selected: ko.observable(false),
           lettering: ko.observable(''),
-          summaryNote: 'Large Letters'
+          summaryNote: 'Large Letters',
+          maxLetters: 4
         }, {
           imgUrl: 'images/mixed_type.jpg',
           label: 'MiXeD letters',
           selected: ko.observable(false),
           lettering: ko.observable(''),
-          summaryNote: 'Mixed Letters'
+          summaryNote: 'Mixed Letters',
+          maxLetters: 5
         }
       ];
       this.borders = [
@@ -60,13 +63,13 @@
         {
           imgUrl: 'images/7_inch_chain.jpg',
           label: 'Ball Chain (7 inches)',
-          sublabel: '12.00',
+          sublabel: '+$12.00',
           selected: ko.observable(false),
           summaryNote: '7-inche ball chain'
         }, {
           imgUrl: 'images/20_inch_chain.jpg',
           label: 'Ball Chain (20 inches)',
-          sublabel: '$23.00',
+          sublabel: '+$23.00',
           selected: ko.observable(true),
           summaryNote: '20-inche ball chain'
         }, {
@@ -92,98 +95,94 @@
           summaryNote: 'No'
         }
       ];
-      this.letterings[0].remaining = ko.computed(function(foo) {
-        var left;
-        left = 10 - _this.letterings[0].lettering().length;
-        return left + ' characters remaining';
-      });
-      this.letterings[1].remaining = ko.computed(function(foo) {
-        var left;
-        left = 10 - _this.letterings[1].lettering().length;
-        return left + ' characters remaining';
-      });
-      this.letterings[2].remaining = ko.computed(function(foo) {
-        var left;
-        left = 10 - _this.letterings[2].lettering().length;
-        return left + ' characters remaining';
-      });
+      _ref = this.letterings;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        lettering = _ref[_i];
+        lettering.remaining = (function(lettering) {
+          return ko.computed(function(foo) {
+            var left;
+            left = lettering.maxLetters - lettering.lettering().length;
+            return left + ' characters remaining';
+          });
+        })(lettering);
+      }
       this.selectCharm = function(selectedCharm, event) {
-        var charm, _i, _len, _ref, _results;
-        _ref = _this.charms;
+        var charm, _j, _len1, _ref1, _results;
+        _ref1 = _this.charms;
         _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          charm = _ref[_i];
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          charm = _ref1[_j];
           _results.push(charm.selected(charm.type === selectedCharm.type));
         }
         return _results;
       };
       this.selectLettering = function(selectedLettering, event) {
-        var lettering, _i, _len, _ref, _results;
-        _ref = _this.letterings;
+        var _j, _len1, _ref1, _results;
+        _ref1 = _this.letterings;
         _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          lettering = _ref[_i];
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          lettering = _ref1[_j];
           _results.push(lettering.selected(lettering.label === selectedLettering.label));
         }
         return _results;
       };
       this.selectBorder = function(selectedBorder, event) {
-        var border, _i, _len, _ref, _results;
-        _ref = _this.borders;
+        var border, _j, _len1, _ref1, _results;
+        _ref1 = _this.borders;
         _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          border = _ref[_i];
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          border = _ref1[_j];
           _results.push(border.selected(border.label === selectedBorder.label));
         }
         return _results;
       };
       this.selectChain = function(selectedChain, event) {
-        var chain, _i, _len, _ref, _results;
-        _ref = _this.chains;
+        var chain, _j, _len1, _ref1, _results;
+        _ref1 = _this.chains;
         _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          chain = _ref[_i];
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          chain = _ref1[_j];
           _results.push(chain.selected(chain.label === selectedChain.label));
         }
         return _results;
       };
       this.selectHeart = function(selectedHeart, event) {
-        var heart, _i, _len, _ref, _results;
-        _ref = _this.hearts;
+        var heart, _j, _len1, _ref1, _results;
+        _ref1 = _this.hearts;
         _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          heart = _ref[_i];
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          heart = _ref1[_j];
           _results.push(heart.selected(heart.label === selectedHeart.label));
         }
         return _results;
       };
       this.selectedSummary = ko.computed(function() {
-        var border, borderStyle, chain, chainStyle, charm, charmStyle, engraving, includeHeart, lettering, letteringStyle, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3;
-        _ref = _this.charms;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          charm = _ref[_i];
+        var border, borderStyle, chain, chainStyle, charm, charmStyle, engraving, includeHeart, letteringStyle, _j, _k, _l, _len1, _len2, _len3, _len4, _m, _ref1, _ref2, _ref3, _ref4;
+        _ref1 = _this.charms;
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          charm = _ref1[_j];
           if (charm.selected()) {
             charmStyle = charm.summaryNote;
           }
         }
-        _ref1 = _this.letterings;
-        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-          lettering = _ref1[_j];
+        _ref2 = _this.letterings;
+        for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+          lettering = _ref2[_k];
           if (lettering.selected()) {
             letteringStyle = lettering.summaryNote;
             engraving = lettering.lettering();
           }
         }
-        _ref2 = _this.borders;
-        for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
-          border = _ref2[_k];
+        _ref3 = _this.borders;
+        for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
+          border = _ref3[_l];
           if (border.selected()) {
             borderStyle = border.summaryNote;
           }
         }
-        _ref3 = _this.chains;
-        for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
-          chain = _ref3[_l];
+        _ref4 = _this.chains;
+        for (_m = 0, _len4 = _ref4.length; _m < _len4; _m++) {
+          chain = _ref4[_m];
           if (chain.selected()) {
             chainStyle = chain.summaryNote;
           }
@@ -206,10 +205,10 @@
       cart = this._getShoppingCartData();
       this.shoppingCart = ko.observableArray([]);
       this.addToCart = function(viewModel, event) {
-        var engraving, item, lettering, _i, _len, _ref;
-        _ref = viewModel.letterings;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          lettering = _ref[_i];
+        var engraving, item, _j, _len1, _ref1;
+        _ref1 = viewModel.letterings;
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          lettering = _ref1[_j];
           if (lettering.selected()) {
             engraving = lettering.lettering();
           }
@@ -297,6 +296,18 @@
   })();
 
   ready = function() {
+    var limitCharacters,
+      _this = this;
+    limitCharacters = function(element, valueAccessor, allBindings, viewModel) {
+      var allowedNumberOfCharacters, currentValue, cutText;
+      allowedNumberOfCharacters = valueAccessor();
+      currentValue = allBindings.get('textInput');
+      cutText = ko.unwrap(currentValue).substr(0, allowedNumberOfCharacters);
+      return currentValue(cutText);
+    };
+    ko.bindingHandlers.limitCharacters = {
+      update: limitCharacters
+    };
     return ko.applyBindings(new CharmsViewModel());
   };
 
