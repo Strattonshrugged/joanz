@@ -55,8 +55,8 @@
 
     <div class="row">
       <div class="small-12 columns">
-        <h3 class="titletext">Custom Charms</h3>
-        <p class="titletext">Create a complete sterling silver necklace or bracelet with your own lettering on it.  Let's get started!  </p>
+        <h3 class="title-text">Custom Charms</h3>
+        <p class="subtitle-text">Create a complete sterling silver necklace or bracelet with your own lettering on it.  Let's get started!  </p>
       </div>
     </div>
 

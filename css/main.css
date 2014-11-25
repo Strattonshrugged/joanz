@@ -21,6 +21,10 @@ body {
   background-size: 100%;
 }
 
+.stepheader {
+  font-weight: bold;
+}
+
 .imglabel {
   text-align: center;
 }
@@ -39,7 +43,12 @@ body {
   margin-top: -0.8em;
 }
 
-.titletext {
+.title-text {
+  color: #996633;
+  font-weight: bold;
+}
+
+.subtitle-text {
   color: #996633;
 }
 
