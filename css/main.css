@@ -1,3 +1,13 @@
+@font-face {
+  font-family: otto;
+  src: url(../fonts/Otto.ttf);
+}
+
+h1 {
+  font-family: otto;
+  font-size: 3em;
+}
+
 body {
   background-image: url('../images/tile6.gif');
 }
@@ -13,6 +23,20 @@ body {
 
 .imglabel {
   text-align: center;
+}
+
+.header-text {
+  font-family: otto;
+  font-size: 6em;
+  margin-left: 50px;
+}
+
+.subheader-text {
+  font-family: otto;
+  font-size: 2em;
+  margin-left: 100px;
+  margin-bottom: 10px;
+  margin-top: -0.8em;
 }
 
 .titletext {
