@@ -13,13 +13,15 @@
           imgUrl: 'images/single_charm.jpg',
           url: 'customize.php?type=single',
           selected: ko.observable(true),
-          summaryNote: 'Single'
+          summaryNote: 'Single',
+          sublabel: '+$20.00'
         }, {
           type: 'Double Charm',
           imgUrl: 'images/double_charm.jpg',
           url: 'customize.php?type=double',
           selected: ko.observable(false),
-          summaryNote: 'Double'
+          summaryNote: 'Double',
+          sublabel: '+$23.00'
         }
       ];
       this.letterings = [
@@ -157,12 +159,14 @@
         return _results;
       };
       this.selectedSummary = ko.computed(function() {
-        var border, borderStyle, chain, chainStyle, charm, charmStyle, engraving, includeHeart, letteringStyle, _j, _k, _l, _len1, _len2, _len3, _len4, _m, _ref1, _ref2, _ref3, _ref4;
+        var border, borderStyle, chain, chainStyle, charm, charmStyle, engraving, includeHeart, letteringStyle, price, _j, _k, _l, _len1, _len2, _len3, _len4, _m, _ref1, _ref2, _ref3, _ref4;
+        price = 0;
         _ref1 = _this.charms;
         for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
           charm = _ref1[_j];
           if (charm.selected()) {
             charmStyle = charm.summaryNote;
+            price += _this._sublabelToCost(charm.sublabel);
           }
         }
         _ref2 = _this.letterings;
@@ -185,10 +189,12 @@
           chain = _ref4[_m];
           if (chain.selected()) {
             chainStyle = chain.summaryNote;
+            price += _this._sublabelToCost(chain.sublabel);
           }
         }
         if (_this.hearts[0].selected()) {
           includeHeart = _this.hearts[0].summaryNote;
+          price += _this._sublabelToCost(_this.hearts[0].sublabel);
         } else {
           includeHeart = _this.hearts[1].summaryNote;
         }
@@ -199,11 +205,10 @@
           borderStyle: borderStyle,
           chainStyle: chainStyle,
           includeHeart: includeHeart,
-          price: '$39'
+          price: price
         };
       });
       cart = this._getShoppingCartData();
-      this.shoppingCart = ko.observableArray([]);
       this.addToCart = function(viewModel, event) {
         var engraving, item, _j, _len1, _ref1;
         _ref1 = viewModel.letterings;
@@ -250,7 +255,7 @@
       this.hasCartItems = ko.computed(function() {
         return _this.activeCart().length > 0;
       });
-      this.summarizeItem = function(item) {
+      this.summarizeCartItem = function(item) {
         var summary;
         summary = "A <b>" + (item.charmStyle.toLowerCase()) + "</b> charm";
         if (item.engraving === "") {
@@ -271,6 +276,19 @@
         }
         return summary;
       };
+      this.priceCartItem = function(item) {
+        return "$" + item.price;
+      };
+      this.cartTotal = ko.computed(function() {
+        var item, total, _j, _len1, _ref1;
+        total = 0;
+        _ref1 = _this.activeCart();
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          item = _ref1[_j];
+          total += item.price;
+        }
+        return "$" + total;
+      });
     }
 
     CharmsViewModel.prototype._getShoppingCartData = function() {
@@ -289,6 +307,13 @@
 
     CharmsViewModel.prototype._setShoppingCartData = function(data) {
       return $.cookie('shopping_cart', JSON.stringify(data));
+    };
+
+    CharmsViewModel.prototype._sublabelToCost = function(sublabel) {
+      if (sublabel === '') {
+        return 0;
+      }
+      return parseInt(sublabel.replace('$', '').replace('+', ''), 10);
     };
 
     return CharmsViewModel;

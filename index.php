@@ -41,6 +41,14 @@
       <?php include 'templates/cart_item.html'; ?>
     </script>
 
+    <script type="text/html" id="summary-template">
+      <?php include 'templates/summary.html'; ?>
+    </script>
+
+    <script type="text/html" id="cart-template">
+      <?php include 'templates/cart.html'; ?>
+    </script>
+
   </head>
   <body>
     <div data-bind="template: { name: 'header-template' }"></div>
@@ -90,63 +98,14 @@
     <div class="row">
       <!-- summary -->
       <div class="small-6 columns">
-        <h3 class="stepheader">Necklace Summary</h3>
-        <form>
-          <table data-bind="with: selectedSummary">
-            <tr>
-              <td class="summarylabel">Charm Style</td>
-              <td><span data-bind="text: charmStyle"></span></td>
-            </tr>
-            <tr>
-              <td class="summarylabel">Charm Lettering</td>
-              <td><span data-bind="text: letteringStyle"></span></td>
-            </tr>
-            <tr>
-              <td class="summarylabel">Charm Text</td>
-              <td><span data-bind="text: letteringStyle"></span></td>
-            </tr>
-            <tr>
-              <td class="summarylabel">Border Style</td>
-              <td><span data-bind="text: borderStyle"></span></td>
-            </tr>
-            <tr>
-              <td class="summarylabel">Chain Type</td>
-              <td><span data-bind="text: chainStyle"></span></td>
-            </tr>
-            <tr>
-              <td class="summarylabel">Include Heart Charm</td>
-              <td><span data-bind="text: includeHeart"></span></td>
-            </tr>
-            <tr>
-              <td class="summarylabel">Price</td>
-              <td><span data-bind="text: price"></span></td>
-            </tr>
-          </table>
-          <button class="radius" data-bind="click: addToCart">Add to Cart</button>
-        </form>
+        <div data-bind="template: { name: 'summary-template' }"></div>
       </div>
 
       <!-- cart -->
       <div class="small-6 columns">
-        <div data-bind="visible: hasCartItems()">
-          <h3 class="stepheader">Shopping Cart</h3>
-
-          <table class="cartTable">
-            <tbody data-bind="foreach: activeCart">
-              <td data-bind="template: { name: 'cart-item-template' }"></td>
-            </tbody>
-          </table>
-
-          <button class="radius" data-bind="click: checkout">Checkout</button>
-          <button class="tiny radius clearbtn" data-bind="click: emptyCart">Clear Cart</button>
-          <div>
-          </div>
-        </div>
+        <div data-bind="template: { name: 'cart-template' }"></div>
       </div>
 
-    </div>
-
-    <div class="row">
     </div>
 
   </body>

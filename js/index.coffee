@@ -7,6 +7,7 @@ class CharmsViewModel
                 url: 'customize.php?type=single'
                 selected: ko.observable(true)
                 summaryNote: 'Single'
+                sublabel: '+$20.00'
             }
             { 
                 type: 'Double Charm' 
@@ -14,6 +15,7 @@ class CharmsViewModel
                 url: 'customize.php?type=double'
                 selected: ko.observable(false)
                 summaryNote: 'Double'
+                sublabel: '+$23.00'
             }
         ]
         @letterings = [
@@ -124,9 +126,11 @@ class CharmsViewModel
                 heart.selected(heart.label == selectedHeart.label)
 
         @selectedSummary = ko.computed(=>
+            price = 0
             for charm in @charms
                 if charm.selected()
                     charmStyle = charm.summaryNote
+                    price += @_sublabelToCost(charm.sublabel)
 
             for lettering in @letterings
                 if lettering.selected()
@@ -140,12 +144,14 @@ class CharmsViewModel
             for chain in @chains
                 if chain.selected()
                     chainStyle = chain.summaryNote
+                    price += @_sublabelToCost(chain.sublabel)
 
             if @hearts[0].selected()
                 includeHeart = @hearts[0].summaryNote
+                price += @_sublabelToCost(@hearts[0].sublabel)
             else
                 includeHeart = @hearts[1].summaryNote
-                
+
             return {
                 charmStyle: charmStyle
                 letteringStyle: letteringStyle
@@ -153,13 +159,12 @@ class CharmsViewModel
                 borderStyle: borderStyle
                 chainStyle: chainStyle
                 includeHeart: includeHeart
-                price: '$39'
+                price: price
             }
         )
 
         # initialize the shopping cart from pre-existing cookie
         cart = @_getShoppingCartData()
-        @shoppingCart = ko.observableArray([])
 
         @addToCart = (viewModel, event) ->
             # get user confirmation before adding to the cart
@@ -209,7 +214,8 @@ class CharmsViewModel
             return @activeCart().length > 0
         )
 
-        @summarizeItem = (item) ->
+        # for in-cart display
+        @summarizeCartItem = (item) ->
             summary = "A <b>#{item.charmStyle.toLowerCase()}</b> charm"
             if item.engraving is ""
                 summary += " with no engraving.  "
@@ -228,6 +234,16 @@ class CharmsViewModel
 
             return summary
 
+        @priceCartItem = (item) ->
+            return "$#{item.price}"
+
+        @cartTotal = ko.computed(=>
+            total = 0
+            for item in @activeCart()
+                total += item.price
+            return "$#{total}"
+        )
+
     # retrieves the cart data stored as JSON in a cookie and returns
     # it as a javascript object
     _getShoppingCartData: ->
@@ -245,6 +261,11 @@ class CharmsViewModel
     _setShoppingCartData: (data) ->
         #console.log('setting shopping cart data')
         $.cookie('shopping_cart', JSON.stringify(data))
+
+    # converts a money string '$39.00' to an int, returns 0 for empty string
+    _sublabelToCost: (sublabel) ->
+        return 0 if sublabel is ''
+        return parseInt(sublabel.replace('$', '').replace('+', ''), 10)
 
 ready = ->
     # ported from stackoverflow question comment

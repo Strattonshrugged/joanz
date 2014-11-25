@@ -91,3 +91,26 @@ body {
 .cartTable {
   width: 100%;
 }
+
+.emptyCartText {
+  text-align: center;
+}
+
+.cartColumn {
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+.cartColumn.column1 {
+  width: 85%;
+}
+
+.cartColumn.column2 {
+  width: 15%;
+  text-align: center;
+}
+
+.cartTotal {
+  float: right;
+}

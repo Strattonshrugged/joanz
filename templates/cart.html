@@ -1,0 +1,18 @@
+<h3 class="stepheader">Shopping Cart</h3>
+<div data-bind="visible: hasCartItems()">
+  <table class="cartTable">
+    <tbody data-bind="foreach: activeCart">
+      <td data-bind="template: { name: 'cart-item-template' }"></td>
+    </tbody>
+    <tr><td>
+      <div class="cartColumn column1"><span style="float: right">Total</span></div><!--
+      --><div class="cartColumn column2" data-bind="text: cartTotal"></div>
+    </td></tr>
+  </table>
+  
+  <button class="radius" data-bind="click: checkout">Checkout</button>
+  <button class="tiny radius clearbtn" data-bind="click: emptyCart">Clear Cart</button>
+</div>
+<div data-bind="visible: !hasCartItems()">
+  <table class="cartTable"><tr><td><div class="emptyCartText">(your shopping cart is currently empty)</div></td></tr></table>
+</div>
