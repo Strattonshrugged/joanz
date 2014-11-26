@@ -237,6 +237,24 @@ class CharmsViewModel
         @priceCartItem = (item) ->
             return "$#{item.price}"
 
+        @paypalSummarizeCartItem = (item) ->
+            summary = "#{item.charmStyle.toLowerCase()} charm"
+            if item.engraving is ""
+                summary += ", no engraving"
+            else
+                summary += ", engraving: \"#{item.engraving}\""
+
+            if item.includeHeart isnt "No"
+                summary += ", includes heart charm"
+                if item.chainStyle isnt "No Chain"
+                    summary += " and #{item.chainStyle.toLowerCase()}"
+            else if item.chainStyle isnt "No Chain"
+                summary += ", includes #{item.chainStyle.toLowerCase()}"
+
+        # no dollar sign - used for paypal hidden fields
+        @paypalPriceCartItem = (item) ->
+            return "#{item.price}"
+
         @cartTotal = ko.computed(=>
             total = 0
             for item in @activeCart()

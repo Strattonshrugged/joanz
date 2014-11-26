@@ -279,6 +279,26 @@
       this.priceCartItem = function(item) {
         return "$" + item.price;
       };
+      this.paypalSummarizeCartItem = function(item) {
+        var summary;
+        summary = "" + (item.charmStyle.toLowerCase()) + " charm";
+        if (item.engraving === "") {
+          summary += ", no engraving";
+        } else {
+          summary += ", engraving: \"" + item.engraving + "\"";
+        }
+        if (item.includeHeart !== "No") {
+          summary += ", includes heart charm";
+          if (item.chainStyle !== "No Chain") {
+            return summary += " and " + (item.chainStyle.toLowerCase());
+          }
+        } else if (item.chainStyle !== "No Chain") {
+          return summary += ", includes " + (item.chainStyle.toLowerCase());
+        }
+      };
+      this.paypalPriceCartItem = function(item) {
+        return "" + item.price;
+      };
       this.cartTotal = ko.computed(function() {
         var item, total, _j, _len1, _ref1;
         total = 0;

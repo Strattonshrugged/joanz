@@ -10,8 +10,22 @@
     </td></tr>
   </table>
   
-  <button class="radius" data-bind="click: checkout">Checkout</button>
-  <button class="tiny radius clearbtn" data-bind="click: emptyCart">Clear Cart</button>
+  <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+    <input type="hidden" name="cmd" value="_cart">
+    <input type="hidden" name="upload" value="1">
+    <input type="hidden" name="business" value="prstepmom@yahoo.com">
+
+    <!-- ko foreach: activeCart -->
+    <input type="hidden" data-bind="attr: { name: 'item_name_' + ($index() + 1), value: $parent.paypalSummarizeCartItem($data) }">
+    <input type="hidden" data-bind="attr: { name: 'amount_' + ($index() + 1), value: $parent.paypalPriceCartItem($data) }">
+    <!-- /ko -->
+
+    <input type="hidden" name="currency_code" value="USD">
+    <!-- <input type="hidden" name="amount" value="10.00"> -->
+    <input type="image" src="http://www.paypal.com/en_US/i/btn/x-click-but01.gif" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+    <button class="tiny radius clearbtn" data-bind="click: emptyCart">Clear Cart</button>
+  </form>
+
 </div>
 <div data-bind="visible: !hasCartItems()">
   <table class="cartTable"><tr><td><div class="emptyCartText">(your shopping cart is currently empty)</div></td></tr></table>
