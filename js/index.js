@@ -63,17 +63,17 @@
       ];
       this.chains = [
         {
-          imgUrl: 'images/7_inch_chain.jpg',
-          label: 'Ball Chain (7 inches)',
-          sublabel: '+$12.00',
-          selected: ko.observable(false),
-          summaryNote: '7-inche ball chain'
-        }, {
           imgUrl: 'images/20_inch_chain.jpg',
-          label: 'Ball Chain (20 inches)',
+          label: 'Necklace (20 inches)',
           sublabel: '+$23.00',
           selected: ko.observable(true),
-          summaryNote: '20-inche ball chain'
+          summaryNote: '20-inch necklace'
+        }, {
+          imgUrl: 'images/7_inch_chain.jpg',
+          label: 'Bracelet (7.5 inches)',
+          sublabel: '+$12.00',
+          selected: ko.observable(false),
+          summaryNote: '7-inch bracelet'
         }, {
           imgUrl: 'images/no_chain.jpg',
           label: 'No Chain',

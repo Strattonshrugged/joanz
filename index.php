@@ -83,15 +83,15 @@
 
     <div class="row">
       <div class="small-12 columns">
-        <h3 class="stepheader">Step 4. Choose a chain</h3>
-        <div data-bind="template: { name: 'charm-chain-template', foreach: chains }"></div>
+        <h3 class="stepheader">Step 4. Add a heart spacer charm?</h3>
+        <div data-bind="template: { name: 'charm-heart-template', foreach: hearts }"></div>
       </div>
     </div>
 
     <div class="row">
       <div class="small-12 columns">
-        <h3 class="stepheader">Step 5. Add a heart spacer charm?</h3>
-        <div data-bind="template: { name: 'charm-heart-template', foreach: hearts }"></div>
+        <h3 class="stepheader">Step 5. Choose a chain</h3>
+        <div data-bind="template: { name: 'charm-chain-template', foreach: chains }"></div>
       </div>
     </div>
 
