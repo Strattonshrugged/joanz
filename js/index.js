@@ -51,7 +51,7 @@
       this.borders = [
         {
           imgUrl: 'images/dots.jpg',
-          label: 'Yes, please add a dot border',
+          label: 'Yes, add a dot border',
           selected: ko.observable(true),
           summaryNote: 'Dotted Border'
         }, {
@@ -109,54 +109,49 @@
         })(lettering);
       }
       this.selectCharm = function(selectedCharm, event) {
-        var charm, _j, _len1, _ref1, _results;
+        var charm, _j, _len1, _ref1;
         _ref1 = _this.charms;
-        _results = [];
         for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
           charm = _ref1[_j];
-          _results.push(charm.selected(charm.type === selectedCharm.type));
+          charm.selected(charm.type === selectedCharm.type);
         }
-        return _results;
+        return true;
       };
       this.selectLettering = function(selectedLettering, event) {
-        var _j, _len1, _ref1, _results;
+        var _j, _len1, _ref1;
         _ref1 = _this.letterings;
-        _results = [];
         for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
           lettering = _ref1[_j];
-          _results.push(lettering.selected(lettering.label === selectedLettering.label));
+          lettering.selected(lettering.label === selectedLettering.label);
         }
-        return _results;
+        return true;
       };
       this.selectBorder = function(selectedBorder, event) {
-        var border, _j, _len1, _ref1, _results;
+        var border, _j, _len1, _ref1;
         _ref1 = _this.borders;
-        _results = [];
         for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
           border = _ref1[_j];
-          _results.push(border.selected(border.label === selectedBorder.label));
+          border.selected(border.label === selectedBorder.label);
         }
-        return _results;
+        return true;
       };
       this.selectChain = function(selectedChain, event) {
-        var chain, _j, _len1, _ref1, _results;
+        var chain, _j, _len1, _ref1;
         _ref1 = _this.chains;
-        _results = [];
         for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
           chain = _ref1[_j];
-          _results.push(chain.selected(chain.label === selectedChain.label));
+          chain.selected(chain.label === selectedChain.label);
         }
-        return _results;
+        return true;
       };
       this.selectHeart = function(selectedHeart, event) {
-        var heart, _j, _len1, _ref1, _results;
+        var heart, _j, _len1, _ref1;
         _ref1 = _this.hearts;
-        _results = [];
         for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
           heart = _ref1[_j];
-          _results.push(heart.selected(heart.label === selectedHeart.label));
+          heart.selected(heart.label === selectedHeart.label);
         }
-        return _results;
+        return true;
       };
       this.selectedSummary = ko.computed(function() {
         var border, borderStyle, chain, chainStyle, charm, charmStyle, engraving, includeHeart, letteringStyle, price, _j, _k, _l, _len1, _len2, _len3, _len4, _m, _ref1, _ref2, _ref3, _ref4;
@@ -209,6 +204,10 @@
         };
       });
       cart = this._getShoppingCartData();
+      this.addAnotherCharm = function(viewModel, event) {
+        this.addToCart(viewModel, event);
+        return $('html,body').scrollTop(0);
+      };
       this.addToCart = function(viewModel, event) {
         var engraving, item, _j, _len1, _ref1;
         _ref1 = viewModel.letterings;

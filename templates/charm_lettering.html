@@ -1,6 +1,7 @@
 <div class="ib fl tac">
   <img class="tile" data-bind="css: { selected: selected(), unselected: !selected()}, attr: { src: imgUrl }, click: $parent.selectLettering">
   <div class="imglabel">
+    <input type="checkbox" data-bind="checked: selected(), click: $parent.selectLettering" />
     <label class="tileLabel" data-bind="text: label, css: { selected: selected() }"></label>
   </div>
   <div class="fullwidth" data-bind="visible: selected()">

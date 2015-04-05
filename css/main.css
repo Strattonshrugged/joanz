@@ -44,14 +44,16 @@ body {
 }
 
 .header-text {
+  color: white;
   font-family: imprint;
-  font-size: 6em;
+  font-size: 4em;
   margin-left: 50px;
 }
 
 .subheader-text {
+  color: white;
   font-family: imprint;
-  font-size: 2em;
+  font-size: 1.2em;
   margin-left: 100px;
   margin-bottom: 10px;
   margin-top: -0.4em;
@@ -85,12 +87,6 @@ body {
 
 .tile.selected {
   border: solid 4px rgba(0,0,255,1);
-}
-
-.tile.unselected {
-    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */
-    filter: gray; /* IE6-9 */
-    -webkit-filter: grayscale(100%); /* Chrome 19+, Safari 6+, Safari 6+ iOS */
 }
 
 .tile:hover {

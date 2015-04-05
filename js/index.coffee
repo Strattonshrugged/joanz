@@ -47,7 +47,7 @@ class CharmsViewModel
         @borders = [
             {
                 imgUrl: 'images/dots.jpg'
-                label: 'Yes, please add a dot border'
+                label: 'Yes, add a dot border'
                 selected: ko.observable(true)
                 summaryNote: 'Dotted Border'
             }
@@ -109,21 +109,31 @@ class CharmsViewModel
             for charm in @charms
                 charm.selected(charm.type == selectedCharm.type)
 
+            return true
+
         @selectLettering = (selectedLettering, event) =>
             for lettering in @letterings
                 lettering.selected(lettering.label == selectedLettering.label)
+
+            return true
                     
         @selectBorder = (selectedBorder, event) =>
             for border in @borders
                 border.selected(border.label == selectedBorder.label)
 
+            return true
+
         @selectChain = (selectedChain, event) =>
             for chain in @chains
                 chain.selected(chain.label == selectedChain.label)
 
+            return true
+
         @selectHeart = (selectedHeart, event) =>
             for heart in @hearts
                 heart.selected(heart.label == selectedHeart.label)
+
+            return true
 
         @selectedSummary = ko.computed(=>
             price = 0
@@ -165,6 +175,12 @@ class CharmsViewModel
 
         # initialize the shopping cart from pre-existing cookie
         cart = @_getShoppingCartData()
+
+        @addAnotherCharm = (viewModel, event) ->
+            @addToCart(viewModel, event)
+
+            # jump to top of page
+            $('html,body').scrollTop(0);
 
         @addToCart = (viewModel, event) ->
             # get user confirmation before adding to the cart
