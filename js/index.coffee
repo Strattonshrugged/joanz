@@ -5,7 +5,7 @@ class CharmsViewModel
                 type: 'Single Charm' 
                 imgUrl:  'images/single_charm.jpg'
                 url: 'customize.php?type=single'
-                selected: ko.observable(true)
+                selected: ko.observable(false)
                 summaryNote: 'Single'
                 sublabel: '+$20.00'
             }
@@ -22,7 +22,7 @@ class CharmsViewModel
             { 
                 imgUrl:  'images/small_type.jpg'
                 label: 'small letters'
-                selected: ko.observable(true)
+                selected: ko.observable(false)
                 lettering: ko.observable('')
                 summaryNote: 'Small Letters'
                 maxLetters: 8
@@ -48,7 +48,7 @@ class CharmsViewModel
             {
                 imgUrl: 'images/dots.jpg'
                 label: 'Yes, add a dot border'
-                selected: ko.observable(true)
+                selected: ko.observable(false)
                 summaryNote: 'Dotted Border'
             }
             {
@@ -63,7 +63,7 @@ class CharmsViewModel
                 imgUrl: 'images/20_inch_chain.jpg'
                 label: 'Necklace (20 inches)'
                 sublabel: '+$23.00'
-                selected: ko.observable(true)
+                selected: ko.observable(false)
                 summaryNote: '20-inch necklace'
             }
             {
@@ -93,7 +93,7 @@ class CharmsViewModel
                 imgUrl: 'images/single_charm_select.jpg'
                 label: 'No heart charm, please'
                 sublabel: ''
-                selected: ko.observable(true)
+                selected: ko.observable(false)
                 summaryNote: 'No'
             }
         ]
@@ -137,20 +137,24 @@ class CharmsViewModel
 
         @selectedSummary = ko.computed(=>
             price = 0
+            charmStyle = ""
             for charm in @charms
                 if charm.selected()
                     charmStyle = charm.summaryNote
                     price += @_sublabelToCost(charm.sublabel)
 
+            letteringStyle = 'Small Letters'
             for lettering in @letterings
                 if lettering.selected()
                     letteringStyle = lettering.summaryNote
                     engraving = lettering.lettering()
 
+            borderStyle = "No Border"
             for border in @borders
                 if border.selected()
                     borderStyle = border.summaryNote
 
+            chainStyle = "No Chain" # for when nothing is selected
             for chain in @chains
                 if chain.selected()
                     chainStyle = chain.summaryNote
@@ -178,6 +182,18 @@ class CharmsViewModel
 
         @addAnotherCharm = (viewModel, event) ->
             @addToCart(viewModel, event)
+
+            # clear selections
+            for charm in @charms
+                charm.selected(false)
+            for lettering in @letterings
+                lettering.selected(false)
+            for border in @borders
+                border.selected(false)
+            for chain in @chains
+                chain.selected(false)
+            for heart in @hearts
+                heart.selected(false)
 
             # jump to top of page
             $('html,body').scrollTop(0);

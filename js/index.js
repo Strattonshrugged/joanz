@@ -12,7 +12,7 @@
           type: 'Single Charm',
           imgUrl: 'images/single_charm.jpg',
           url: 'customize.php?type=single',
-          selected: ko.observable(true),
+          selected: ko.observable(false),
           summaryNote: 'Single',
           sublabel: '+$20.00'
         }, {
@@ -28,7 +28,7 @@
         {
           imgUrl: 'images/small_type.jpg',
           label: 'small letters',
-          selected: ko.observable(true),
+          selected: ko.observable(false),
           lettering: ko.observable(''),
           summaryNote: 'Small Letters',
           maxLetters: 8
@@ -52,7 +52,7 @@
         {
           imgUrl: 'images/dots.jpg',
           label: 'Yes, add a dot border',
-          selected: ko.observable(true),
+          selected: ko.observable(false),
           summaryNote: 'Dotted Border'
         }, {
           imgUrl: 'images/no_dots.jpg',
@@ -66,7 +66,7 @@
           imgUrl: 'images/20_inch_chain.jpg',
           label: 'Necklace (20 inches)',
           sublabel: '+$23.00',
-          selected: ko.observable(true),
+          selected: ko.observable(false),
           summaryNote: '20-inch necklace'
         }, {
           imgUrl: 'images/7_inch_chain.jpg',
@@ -93,7 +93,7 @@
           imgUrl: 'images/single_charm_select.jpg',
           label: 'No heart charm, please',
           sublabel: '',
-          selected: ko.observable(true),
+          selected: ko.observable(false),
           summaryNote: 'No'
         }
       ];
@@ -156,6 +156,7 @@
       this.selectedSummary = ko.computed(function() {
         var border, borderStyle, chain, chainStyle, charm, charmStyle, engraving, includeHeart, letteringStyle, price, _j, _k, _l, _len1, _len2, _len3, _len4, _m, _ref1, _ref2, _ref3, _ref4;
         price = 0;
+        charmStyle = "";
         _ref1 = _this.charms;
         for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
           charm = _ref1[_j];
@@ -164,6 +165,7 @@
             price += _this._sublabelToCost(charm.sublabel);
           }
         }
+        letteringStyle = 'Small Letters';
         _ref2 = _this.letterings;
         for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
           lettering = _ref2[_k];
@@ -172,6 +174,7 @@
             engraving = lettering.lettering();
           }
         }
+        borderStyle = "No Border";
         _ref3 = _this.borders;
         for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
           border = _ref3[_l];
@@ -179,6 +182,7 @@
             borderStyle = border.summaryNote;
           }
         }
+        chainStyle = "No Chain";
         _ref4 = _this.chains;
         for (_m = 0, _len4 = _ref4.length; _m < _len4; _m++) {
           chain = _ref4[_m];
@@ -205,7 +209,33 @@
       });
       cart = this._getShoppingCartData();
       this.addAnotherCharm = function(viewModel, event) {
+        var border, chain, charm, heart, _j, _k, _l, _len1, _len2, _len3, _len4, _len5, _m, _n, _ref1, _ref2, _ref3, _ref4, _ref5;
         this.addToCart(viewModel, event);
+        _ref1 = this.charms;
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          charm = _ref1[_j];
+          charm.selected(false);
+        }
+        _ref2 = this.letterings;
+        for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+          lettering = _ref2[_k];
+          lettering.selected(false);
+        }
+        _ref3 = this.borders;
+        for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
+          border = _ref3[_l];
+          border.selected(false);
+        }
+        _ref4 = this.chains;
+        for (_m = 0, _len4 = _ref4.length; _m < _len4; _m++) {
+          chain = _ref4[_m];
+          chain.selected(false);
+        }
+        _ref5 = this.hearts;
+        for (_n = 0, _len5 = _ref5.length; _n < _len5; _n++) {
+          heart = _ref5[_n];
+          heart.selected(false);
+        }
         return $('html,body').scrollTop(0);
       };
       this.addToCart = function(viewModel, event) {
