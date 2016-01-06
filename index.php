@@ -1,123 +1,82 @@
 <html>
-  <head>
-    <title>joanzstudio.com | One of a Kind and custom-made jewelry</title>
+<head>
+  <title>joanzstudio.com | One of a Kind and custom-made jewelry</title>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.2.0/knockout-min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.2.0/knockout-min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="css/foundation.min.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href="css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="css/skeleton.css">
+  <link href="css/smart_wizard.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+  <div id="custom-charm-wizard-dialog" class="u-full-width" style="display: none">
+    <div id="custom-charm-wizard" class="swMain">
+      <ul>
+        <li><a href="#step-1"><span class="stepDesc">Step 1</span></a></li>
+        <li><a href="#step-2"><span class="stepDesc">Step 2</span></a></li>
+        <li><a href="#step-3"><span class="stepDesc">Step 3</span></a></li>
+        <li><a href="#step-4"><span class="stepDesc">Step 4</span></a></li>
+        <li><a href="#step-5"><span class="stepDesc">Step 5</span></a></li>
+      </ul>
+      <div id="step-1">
+        <h2 class="StepTitle">Choose a Charm Type</h2>
+        <?php include 'templates/single_or_double.html'; ?>
+      </div>
+      <div id="step-2">
+        <h2 class="StepTitle">Choose letterings</h2>
+        <?php include 'templates/charm_lettering.html'; ?>
+      </div>
+      <div id="step-3">
+        <h2 class="StepTitle">Choose border</h2>
+        <?php include 'templates/charm_border.html'; ?>
+      </div>
+      <div id="step-4">
+        <h2 class="StepTitle">Heart Charm</h2>
+        <?php include 'templates/charm_heart.html'; ?>
+      </div>
+      <div id="step-5">
+        <h2 class="StepTitle">Add Chain</h2>
+        <?php include 'templates/charm_chain.html'; ?>
+      </div>
+    </div>
+  </div>
 
-    <script type="text/html" id="header-template">
-      <?php include 'templates/header.html'; ?>
-    </script>
+  <div class="u-full-width">
+    <div class="header">
+      <div class="header-text">Joan Z Studio</div>
+      <div class="subheader-text">One of a kind and custom-made jewelry</div>
+    </div>
+  </div>
 
-    <script type="text/html" id="single-or-double-template">
-      <?php include 'templates/single_or_double.html'; ?>
-    </script>
-
-    <script type="text/html" id="header-template">
-      <?php include 'templates/header.html'; ?>
-    </script>
-
-    <script type="text/html" id="charm-lettering-template">
-      <?php include 'templates/charm_lettering.html'; ?>
-    </script>
-
-    <script type="text/html" id="charm-border-template">
-      <?php include 'templates/charm_border.html'; ?>
-    </script>
-
-    <script type="text/html" id="charm-chain-template">
-      <?php include 'templates/charm_chain.html'; ?>
-    </script>
-
-    <script type="text/html" id="charm-heart-template">
-      <?php include 'templates/charm_heart.html'; ?>
-    </script>
-
-    <script type="text/html" id="cart-item-template">
-      <?php include 'templates/cart_item.html'; ?>
-    </script>
-
-    <script type="text/html" id="summary-template">
-      <?php include 'templates/summary.html'; ?>
-    </script>
-
-    <script type="text/html" id="cart-template">
-      <?php include 'templates/cart.html'; ?>
-    </script>
-
-  </head>
-  <body>
-    <div data-bind="template: { name: 'header-template' }"></div>
-
+  <div class="container">
     <div class="row">
-      <div class="small-12 columns">
-        <h3 class="title-text">Custom Charms</h3>
-        <p class="subtitle-text">Create a complete sterling silver necklace or bracelet with your own lettering on it.  Let's get started!  </p>
+      <div class="six columns">
+        <?php include 'templates/initial_choices.html'; ?>
+      </div>
+      <div class="six columns">
+        <?php include 'templates/cart.html'; ?>
       </div>
     </div>
 
-    <div class="row">
-      <div class="small-12 columns">
-        <h3 class="stepheader">Step 1. Choose a charm style:</h3>
-        <div data-bind="template: { name: 'single-or-double-template', foreach: charms }"></div>
-      </div>
-    </div>
+  </div>
 
-    <div class="row">
-      <div class="small-12 columns">
-        <h3 class="stepheader">Step 2. Add your custom lettering</h3>
-        <div data-bind="template: { name: 'charm-lettering-template', foreach: letterings }"></div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="small-12 columns">
-        <h3 class="stepheader">Step 3. Add a dot border?</h3>
-        <div data-bind="template: { name: 'charm-border-template', foreach: borders }"></div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="small-12 columns">
-        <h3 class="stepheader">Step 4. Add a heart spacer charm?</h3>
-        <div data-bind="template: { name: 'charm-heart-template', foreach: hearts }"></div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="small-12 columns">
-        <h3 class="stepheader">Step 5. Choose a chain</h3>
-        <div data-bind="template: { name: 'charm-chain-template', foreach: chains }"></div>
-      </div>
-    </div>
-
-    <div class="row">
-      <!-- summary -->
-      <div class="small-6 columns">
-        <div data-bind="template: { name: 'summary-template' }"></div>
-      </div>
-
-      <!-- cart -->
-      <div class="small-6 columns">
-        <div data-bind="template: { name: 'cart-template' }"></div>
-      </div>
-
-    </div>
-
-  </body>
-  <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+</body>
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-66288547-1', 'auto');
-  ga('send', 'pageview');
+ga('create', 'UA-66288547-1', 'auto');
+ga('send', 'pageview');
 
-  </script>
-  <script src="js/index.js"></script>
+</script>
+
+<script src="js/jquery.smartWizard.js"></script>
+<script src="js/index.js"></script>
 </html>

@@ -1,16 +1,29 @@
 class CharmsViewModel
     constructor: ->
+        @isCustomState = ko.observable(false)
+
+        @designCharmBtn = {
+            type: 'Design a Custom Charm'
+            imgUrl: 'images/single_charm.jpg'
+            clickCallback: @_designCustomCharm
+        }
+        @heartCharmBtn = {
+            type: 'Add a Heart Charm'
+            imgUrl: 'images/heart_charm_spacer.jpg'
+            clickCallback: @_addHeartCharm
+        }
+
         @charms = [
-            { 
-                type: 'Single Charm' 
+            {
+                type: 'Single Charm'
                 imgUrl:  'images/single_charm.jpg'
                 url: 'customize.php?type=single'
                 selected: ko.observable(false)
                 summaryNote: 'Single'
                 sublabel: '+$20.00'
             }
-            { 
-                type: 'Double Charm' 
+            {
+                type: 'Double Charm'
                 imgUrl:  'images/double_charm.jpg'
                 url: 'customize.php?type=double'
                 selected: ko.observable(false)
@@ -19,7 +32,7 @@ class CharmsViewModel
             }
         ]
         @letterings = [
-            { 
+            {
                 imgUrl:  'images/small_type.jpg'
                 label: 'small letters'
                 selected: ko.observable(false)
@@ -27,7 +40,7 @@ class CharmsViewModel
                 summaryNote: 'Small Letters'
                 maxLetters: 8
             }
-            { 
+            {
                 imgUrl:  'images/large_type.jpg'
                 label: 'LARGE letters'
                 selected: ko.observable(false)
@@ -97,7 +110,7 @@ class CharmsViewModel
                 summaryNote: 'No'
             }
         ]
-    
+
         # hacky: make computed after so we can reference observables
         for lettering in @letterings
             lettering.remaining = do (lettering) => ko.computed((foo) =>
@@ -116,7 +129,7 @@ class CharmsViewModel
                 lettering.selected(lettering.label == selectedLettering.label)
 
             return true
-                    
+
         @selectBorder = (selectedBorder, event) =>
             for border in @borders
                 border.selected(border.label == selectedBorder.label)
@@ -144,6 +157,7 @@ class CharmsViewModel
                     price += @_sublabelToCost(charm.sublabel)
 
             letteringStyle = 'Small Letters'
+            engraving = ""
             for lettering in @letterings
                 if lettering.selected()
                     letteringStyle = lettering.summaryNote
@@ -200,6 +214,7 @@ class CharmsViewModel
 
         @addToCart = (viewModel, event) ->
             # get user confirmation before adding to the cart
+            engraving = ""
             for lettering in viewModel.letterings
                 if lettering.selected()
                     engraving = lettering.lettering()
@@ -208,7 +223,7 @@ class CharmsViewModel
             else
                 engraving = "engraving \"#{engraving}\""
             return unless window.confirm("Are you sure you want to add this charm with #{engraving} to the cart?")
-            
+
             item = viewModel.selectedSummary()
 
             cart = @_getShoppingCartData()
@@ -220,7 +235,7 @@ class CharmsViewModel
 
         @removeItem = (index) =>
             return unless window.confirm("Are you sure you want to remove this item from your cart?")
-            
+
             cart = @_getShoppingCartData()
             cart.splice(index, 1)
             @activeCart(cart)
@@ -230,7 +245,7 @@ class CharmsViewModel
 
         @emptyCart = (viewModel, event) ->
             return unless window.confirm("Are you sure you remove all items from your cart?")
-            
+
             @activeCart([])
 
             # also clear the data stored in the browser
@@ -299,7 +314,7 @@ class CharmsViewModel
     _getShoppingCartData: ->
         dataStr = $.cookie('shopping_cart')
         return [] unless dataStr?
-        
+
         data = JSON.parse(dataStr)
         if not Array.isArray(data)
             console.log('no shopping cart data')
@@ -317,6 +332,12 @@ class CharmsViewModel
         return 0 if sublabel is ''
         return parseInt(sublabel.replace('$', '').replace('+', ''), 10)
 
+    _designCustomCharm: =>
+         $("#custom-charm-wizard-dialog").dialog("open")
+
+    _addHeartCharm: ->
+        console.log("add heart charm")
+
 ready = ->
     # ported from stackoverflow question comment
     # http://stackoverflow.com/questions/12982587/how-to-build-a-textarea-with-character-counter-and-max-length
@@ -330,8 +351,59 @@ ready = ->
     ko.bindingHandlers.limitCharacters = {
         update: limitCharacters
     }
-    
-    ko.applyBindings(new CharmsViewModel())
+
+    wizardDialog = $("#custom-charm-wizard-dialog").dialog({
+        draggable: false
+        width: "90%"
+        title: "Design a Custom Charm"
+        autoOpen: false
+    })
+
+    charmsVM = new CharmsViewModel()
+    ko.applyBindings(charmsVM)
+
+    hasSelection = (array) ->
+        for obj in array
+            if obj.selected()
+                return true
+        alert('You must make a selection')
+        return false
+
+    #$("#custom-charm-wizard-dialog").dialog({ autoOpen: false })
+    validateWizardStep = (elem, context) =>
+        # always allow returning to previous page
+        if context.fromStep > context.toStep
+            return true
+
+        switch context.fromStep
+            when 1 # choose a charm
+                return hasSelection(charmsVM.charms)
+            when 2 # choose a lettering
+                if hasSelection(charmsVM.letterings)                    
+                    # TODO: check for a lettering?
+                    return true
+                else
+                    return false
+            when 3 # choose a border
+                return hasSelection(charmsVM.borders)
+            when 4
+                return hasSelection(charmsVM.hearts)
+        return false
+
+    finishWizard = ->
+        if hasSelection(charmsVM.chains)
+            # TODO: add to cart
+            # TODO: reset wizard
+
+            $("#custom-charm-wizard-dialog").dialog("close")
+
+    $("#custom-charm-wizard").smartWizard({
+        onLeaveStep: validateWizardStep
+        labelFinish: 'Add to Cart'
+        onFinish: finishWizard
+    })
+
+
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

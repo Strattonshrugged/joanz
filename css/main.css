@@ -84,6 +84,8 @@ body {
 }
 
 .tile {
+  width: 192px;
+  height: 192px;
   border: solid 4px rgba(255,255,255,0);
 }
 
@@ -158,4 +160,22 @@ body {
 
 .cartTotal {
   float: right;
+}
+
+/* for smart wizard */
+.swMain {
+  width: 100%;
+}
+
+.swMain .stepContainer div.content {
+  width: 95%;
+}
+
+.swMain ul.anchor li a {
+  width: 160px;
+  height: 40px;
+}
+
+.swMain ul.anchor li small {
+  display: block;
 }
