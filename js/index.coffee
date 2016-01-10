@@ -1,5 +1,7 @@
 class CharmsViewModel
-    constructor: ->
+    constructor: (cartVM) ->
+        @_cartVM = cartVM
+        
         @isCustomState = ko.observable(false)
 
         @designCharmBtn = {
@@ -148,166 +150,86 @@ class CharmsViewModel
 
             return true
 
-        @selectedSummary = ko.computed(=>
-            price = 0
-            charmStyle = ""
-            for charm in @charms
-                if charm.selected()
-                    charmStyle = charm.summaryNote
-                    price += @_sublabelToCost(charm.sublabel)
+    resetWizard: ->
+        # clear selections
+        for charm in @charms
+            charm.selected(false)
+        for lettering in @letterings
+            lettering.selected(false)
+        for border in @borders
+            border.selected(false)
+        for chain in @chains
+            chain.selected(false)
+        for heart in @hearts
+            heart.selected(false)
 
-            letteringStyle = 'Small Letters'
-            engraving = ""
-            for lettering in @letterings
-                if lettering.selected()
-                    letteringStyle = lettering.summaryNote
-                    engraving = lettering.lettering()
+    # converts a money string '$39.00' to an int, returns 0 for empty string
+    _sublabelToCost: (sublabel) ->
+        return 0 if sublabel is ''
+        return parseInt(sublabel.replace('$', '').replace('+', ''), 10)
 
-            borderStyle = "No Border"
-            for border in @borders
-                if border.selected()
-                    borderStyle = border.summaryNote
+    _designCustomCharm: =>
+         $("#custom-charm-wizard-dialog").dialog("open")
 
-            chainStyle = "No Chain" # for when nothing is selected
-            for chain in @chains
-                if chain.selected()
-                    chainStyle = chain.summaryNote
-                    price += @_sublabelToCost(chain.sublabel)
+    _addHeartCharm: =>
+        @_cartVM.addToCart('A heart charm', 500, 'heart charm')
 
-            if @hearts[0].selected()
-                includeHeart = @hearts[0].summaryNote
-                price += @_sublabelToCost(@hearts[0].sublabel)
-            else
-                includeHeart = @hearts[1].summaryNote
+    addCustomToCart: ->
+        @_cartVM.addToCart('custom necklace', 500, 'custom necklace')
 
-            return {
-                charmStyle: charmStyle
-                letteringStyle: letteringStyle
-                engraving: engraving
-                borderStyle: borderStyle
-                chainStyle: chainStyle
-                includeHeart: includeHeart
-                price: price
-            }
-        )
+        # clear wizard
+        @resetWizard()
 
+class CartViewModel
+    constructor: ->
         # initialize the shopping cart from pre-existing cookie
         cart = @_getShoppingCartData()
 
-        @addAnotherCharm = (viewModel, event) ->
-            @addToCart(viewModel, event)
-
-            # clear selections
-            for charm in @charms
-                charm.selected(false)
-            for lettering in @letterings
-                lettering.selected(false)
-            for border in @borders
-                border.selected(false)
-            for chain in @chains
-                chain.selected(false)
-            for heart in @hearts
-                heart.selected(false)
-
-            # jump to top of page
-            $('html,body').scrollTop(0);
-
-        @addToCart = (viewModel, event) ->
-            # get user confirmation before adding to the cart
-            engraving = ""
-            for lettering in viewModel.letterings
-                if lettering.selected()
-                    engraving = lettering.lettering()
-            if engraving is ""
-                engraving = "no engraving"
-            else
-                engraving = "engraving \"#{engraving}\""
-            return unless window.confirm("Are you sure you want to add this charm with #{engraving} to the cart?")
-
-            item = viewModel.selectedSummary()
-
-            cart = @_getShoppingCartData()
-            cart.push(item)
-            @activeCart(cart)
-
-            # also store it locally for page reloads
-            @_setShoppingCartData(cart)
-
-        @removeItem = (index) =>
-            return unless window.confirm("Are you sure you want to remove this item from your cart?")
-
-            cart = @_getShoppingCartData()
-            cart.splice(index, 1)
-            @activeCart(cart)
-
-            # also update it locally for page reloads
-            @_setShoppingCartData(cart)
-
-        @emptyCart = (viewModel, event) ->
-            return unless window.confirm("Are you sure you remove all items from your cart?")
-
-            @activeCart([])
-
-            # also clear the data stored in the browser
-            @_setShoppingCartData([])
-
-        @checkout = (viewModel, event) ->
-            console.log('checkout!')
-
         # initialize the cart with what's stored locally
-        @activeCart = ko.observableArray(@_getShoppingCartData())
+        @activeCart = ko.observableArray(cart)
 
         @hasCartItems = ko.computed(=>
             return @activeCart().length > 0
         )
 
-        # for in-cart display
-        @summarizeCartItem = (item) ->
-            summary = "A <b>#{item.charmStyle.toLowerCase()}</b> charm"
-            if item.engraving is ""
-                summary += " with no engraving.  "
-            else
-                summary += " with a <b>#{item.borderStyle.toLowerCase()}</b> engraved with <b>\"#{item.engraving}\"</b>"
-                summary += " in <b>#{item.letteringStyle.toLowerCase()}</b>.  "
-
-            if item.includeHeart isnt "No"
-                summary += "Includes a heart charm"
-                if item.chainStyle isnt "No Chain"
-                    summary += " and a #{item.chainStyle.toLowerCase()}."
-                else
-                    summary += "."
-            else if item.chainStyle isnt "No Chain"
-                summary += "Includes a #{item.chainStyle.toLowerCase()}."
-
-            return summary
-
-        @priceCartItem = (item) ->
-            return "$#{item.price}"
-
-        @paypalSummarizeCartItem = (item) ->
-            summary = "#{item.charmStyle.toLowerCase()} charm"
-            if item.engraving is ""
-                summary += ", no engraving"
-            else
-                summary += ", engraving: \"#{item.engraving}\""
-
-            if item.includeHeart isnt "No"
-                summary += ", includes heart charm"
-                if item.chainStyle isnt "No Chain"
-                    summary += " and #{item.chainStyle.toLowerCase()}"
-            else if item.chainStyle isnt "No Chain"
-                summary += ", includes #{item.chainStyle.toLowerCase()}"
-
-        # no dollar sign - used for paypal hidden fields
-        @paypalPriceCartItem = (item) ->
-            return "#{item.price}"
-
         @cartTotal = ko.computed(=>
             total = 0
             for item in @activeCart()
-                total += item.price
-            return "$#{total}"
+                total += item.localPrice
+
+            return total
         )
+
+    addToCart: (localSummary, localPrice, paypalSummary) ->
+        cart = @_getShoppingCartData()
+        cart.push({
+            localSummary: localSummary
+            localPrice: localPrice
+            paypalSummary: paypalSummary
+            paypalPrice: @centsToPrice(localPrice, false)
+        })
+        @activeCart(cart)
+
+        # also store it locally for page reloads
+        @_setShoppingCartData(cart)
+
+    removeItem: (index) =>
+        return unless window.confirm("Are you sure you want to remove this item from your cart?")
+
+        cart = @_getShoppingCartData()
+        cart.splice(index, 1)
+        @activeCart(cart)
+
+        # also update it locally for page reloads
+        @_setShoppingCartData(cart)
+
+    emptyCart: (viewModel, event) ->
+        return unless window.confirm("Are you sure you remove all items from your cart?")
+
+        @activeCart([])
+
+        # also clear the data stored in the browser
+        @_setShoppingCartData([])
 
     # retrieves the cart data stored as JSON in a cookie and returns
     # it as a javascript object
@@ -327,17 +249,19 @@ class CharmsViewModel
         #console.log('setting shopping cart data')
         $.cookie('shopping_cart', JSON.stringify(data))
 
-    # converts a money string '$39.00' to an int, returns 0 for empty string
-    _sublabelToCost: (sublabel) ->
-        return 0 if sublabel is ''
-        return parseInt(sublabel.replace('$', '').replace('+', ''), 10)
+    centsToPrice: (cents, includeDollarSign = true) ->
+        dollars = cents / 100
+        cents = cents % 100
+        if cents < 10
+            cents = cents + '0'
+        value = "#{dollars}.#{cents}"
+        if includeDollarSign
+            value = "$#{value}"
+        return value
 
-    _designCustomCharm: =>
-         $("#custom-charm-wizard-dialog").dialog("open")
 
-    _addHeartCharm: ->
-        console.log("add heart charm")
 
+        
 ready = ->
     # ported from stackoverflow question comment
     # http://stackoverflow.com/questions/12982587/how-to-build-a-textarea-with-character-counter-and-max-length
@@ -359,8 +283,12 @@ ready = ->
         autoOpen: false
     })
 
-    charmsVM = new CharmsViewModel()
-    ko.applyBindings(charmsVM)
+    cartVM = new CartViewModel()
+    ko.applyBindings(cartVM, $('#cart-container')[0])
+
+    charmsVM = new CharmsViewModel(cartVM)
+    ko.applyBindings(charmsVM, $('#custom-charm-wizard-dialog')[0])
+    ko.applyBindings(charmsVM, $('#initial-choices')[0])
 
     hasSelection = (array) ->
         for obj in array
@@ -390,14 +318,20 @@ ready = ->
                 return hasSelection(charmsVM.hearts)
         return false
 
+    wizardScopeHack = []
     finishWizard = ->
         if hasSelection(charmsVM.chains)
-            # TODO: add to cart
-            # TODO: reset wizard
+            charmsVM.addCustomToCart()
+
+            numSteps = 5
+            wizardScopeHack[0].smartWizard('goToStep', 1)
+            for i in [2..numSteps]
+                console.log("disabling step: #{i}")
+                wizardScopeHack[0].smartWizard('disableStep', i)
 
             $("#custom-charm-wizard-dialog").dialog("close")
 
-    $("#custom-charm-wizard").smartWizard({
+    wizardScopeHack[0] = $("#custom-charm-wizard").smartWizard({
         onLeaveStep: validateWizardStep
         labelFinish: 'Add to Cart'
         onFinish: finishWizard

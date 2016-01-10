@@ -6,7 +6,7 @@
     </tbody>
     <tr><td>
       <div class="cartColumn column1"><span style="float: right">Total</span></div><!--
-      --><div class="cartColumn column2" data-bind="text: cartTotal"></div>
+      --><div class="cartColumn column2" data-bind="text: centsToPrice(cartTotal())"></div>
     </td></tr>
   </table>
   
@@ -16,10 +16,10 @@
     <input type="hidden" name="business" value="jmzcricket@yahoo.com">
 
     <!-- ko foreach: activeCart -->
-    <input type="hidden" data-bind="attr: { name: 'item_name_' + ($index() + 1)}" value="Joan Z Studio">
-    <input type="hidden" data-bind="attr: { name: 'on0_' + ($index() + 1)}" value="Sterling Silver">
-    <input type="hidden" data-bind="attr: { name: 'os0_' + ($index() + 1), value: $parent.paypalSummarizeCartItem($data) }">
-    <input type="hidden" data-bind="attr: { name: 'amount_' + ($index() + 1), value: $parent.paypalPriceCartItem($data) }">
+    <input type="hidden" data-bind="attr: { name: 'item_name_' + ($index() + 1)}, value: $data.paypalSummary">
+    <!-- <input type="hidden" data-bind="attr: { name: 'on0_' + ($index() + 1)}" value="Sterling Silver"> -->
+    <!-- <input type="hidden" data-bind="attr: { name: 'os0_' + ($index() + 1), value: $data.paypalSummary }"> -->
+    <input type="hidden" data-bind="attr: { name: 'amount_' + ($index() + 1), value: $data.paypalPrice }">
     <!-- /ko -->
 
     <input type="hidden" name="currency_code" value="USD">

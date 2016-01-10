@@ -14,6 +14,9 @@
   <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
+  <script type="text/html" id="cart-item-template">
+    <?php include 'templates/cart_item.html'; ?>
+  </script>
   <div id="custom-charm-wizard-dialog" class="u-full-width" style="display: none">
     <div id="custom-charm-wizard" class="swMain">
       <ul>
@@ -55,10 +58,10 @@
 
   <div class="container">
     <div class="row">
-      <div class="six columns">
+      <div id="initial-choices" class="six columns">
         <?php include 'templates/initial_choices.html'; ?>
       </div>
-      <div class="six columns">
+      <div id="cart-container" class="six columns">
         <?php include 'templates/cart.html'; ?>
       </div>
     </div>

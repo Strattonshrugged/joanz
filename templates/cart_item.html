@@ -1,7 +1,7 @@
 <div class="cartColumn column1">
-  <span data-bind="html: $parent.summarizeCartItem($data)"></span>
+  <span data-bind="html: $data.localSummary"></span>
 (<a href="javascript;" data-bind="click: $parent.removeItem.bind($data, $index())">remove from cart</a>)
 </div><!--
 --><div class="cartColumn column2">
-  <span data-bind="html: $parent.priceCartItem($data)"></span>
+  <span data-bind="html: $parent.centsToPrice($data.localPrice)"></span>
 </div>
