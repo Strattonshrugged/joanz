@@ -84,9 +84,14 @@ body {
 }
 
 .tile {
+  width: 160px;
+  height: 160px;
+  border: solid 4px rgba(255,255,255,0);
+}
+
+.tile.big {
   width: 192px;
   height: 192px;
-  border: solid 4px rgba(255,255,255,0);
 }
 
 .tile.selected {
@@ -133,6 +138,14 @@ body {
 
 .clearbtn {
   float: right;
+}
+
+#initial-choices {
+  padding: 1em;
+}
+
+#cart-container {
+  padding: 1em;
 }
 
 .cartTable {
