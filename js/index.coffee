@@ -19,18 +19,18 @@ class CharmsViewModel
             {
                 type: 'Single Charm'
                 imgUrl:  'images/single_charm.jpg'
-                url: 'customize.php?type=single'
                 selected: ko.observable(false)
                 summaryNote: 'Single'
                 sublabel: '+$20.00'
+                cost: 2000
             }
             {
                 type: 'Double Charm'
                 imgUrl:  'images/double_charm.jpg'
-                url: 'customize.php?type=double'
                 selected: ko.observable(false)
                 summaryNote: 'Double'
                 sublabel: '+$23.00'
+                cost: 2300
             }
         ]
         @letterings = [
@@ -64,13 +64,13 @@ class CharmsViewModel
                 imgUrl: 'images/dots.jpg'
                 label: 'Yes, add a dot border'
                 selected: ko.observable(false)
-                summaryNote: 'Dotted Border'
+                summaryNote: 'a dotted border'
             }
             {
                 imgUrl: 'images/no_dots.jpg'
                 label: 'No border, please'
                 selected: ko.observable(false)
-                summaryNote: 'No Border'
+                summaryNote: 'no border'
             }
         ]
         @chains = [
@@ -80,6 +80,7 @@ class CharmsViewModel
                 sublabel: '+$23.00'
                 selected: ko.observable(false)
                 summaryNote: '20-inch necklace'
+                cost: 2300
             }
             {
                 imgUrl: 'images/7_inch_chain.jpg'
@@ -87,6 +88,7 @@ class CharmsViewModel
                 sublabel: '+$12.00'
                 selected: ko.observable(false)
                 summaryNote: '7-inch bracelet'
+                cost: 1200
             }
             {
                 imgUrl: 'images/no_chain.jpg'
@@ -103,6 +105,7 @@ class CharmsViewModel
                 sublabel: '+$20.00'
                 selected: ko.observable(false)
                 summaryNote: 'Yes'
+                cost: 2000
             }
             {
                 imgUrl: 'images/single_charm_select.jpg'
@@ -156,6 +159,7 @@ class CharmsViewModel
             charm.selected(false)
         for lettering in @letterings
             lettering.selected(false)
+            lettering.lettering('')
         for border in @borders
             border.selected(false)
         for chain in @chains
@@ -168,14 +172,62 @@ class CharmsViewModel
         return 0 if sublabel is ''
         return parseInt(sublabel.replace('$', '').replace('+', ''), 10)
 
+    _getSelected: (array) ->
+        for elem in array
+            return elem if elem.selected()
+        return false
+
     _designCustomCharm: =>
          $("#custom-charm-wizard-dialog").dialog("open")
 
     _addHeartCharm: =>
-        @_cartVM.addToCart('A heart charm', 500, 'heart charm')
+        @_cartVM.addToCart('A heart charm', 2000, 'heart charm')
 
     addCustomToCart: ->
-        @_cartVM.addToCart('custom necklace', 500, 'custom necklace')
+        total = 0
+
+        # add the charm to summary and item cost
+        # 
+        charm = @_getSelected(@charms)
+        summary = "A #{charm.type.toLowerCase()}"
+        total += charm.cost
+
+        # add the engraving to summary
+        #
+        lettering = @_getSelected(@letterings)
+        if lettering.lettering() is ''
+            summary += " with no engraving"
+        else
+            summary += " engraved with '#{lettering.lettering()}' in #{lettering.label.toLowerCase()}"
+
+        # add border to summary
+        #
+        border = @_getSelected(@borders)
+        summary += " with #{border.summaryNote}"
+
+        # add heart and chain to summary and cost
+        #
+        heart = @_getSelected(@hearts)
+        chain = @_getSelected(@chains)
+
+        unless 'no' in heart.label.toLowerCase() and 'no' in chain.label.toLowerCase()
+            summary += " -- includes"
+
+            hasHeartCharm = heart.label.toLowerCase().indexOf('no') < 0
+            hasChain = chain.label.toLowerCase().indexOf('no') < 0
+
+            if hasHeartCharm
+                summary += " a heart charm"
+                total += heart.cost
+
+            if hasHeartCharm and hasChain
+                summary += " and "
+
+            if hasChain
+                summary += " a #{chain.summaryNote.toLowerCase()}"
+                total += chain.cost
+        
+        @_cartVM.addToCart(summary, total, summary)
 
         # clear wizard
         @resetWizard()
