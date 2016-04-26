@@ -27,27 +27,44 @@
         <li><a href="#step-5"><span class="stepDesc">Step 5</span></a></li>
       </ul>
       <div id="step-1">
-        <h2 class="StepTitle">Choose a Charm Type</h2>
+        <div class="StepTitle">
+            <h4>Choose a Charm Type</h4>
+            <h6>Choose what type of charm you want - single or double. After you've clicked on the charm type you want then click "Next" in the lower right.</h6>
+        </div>
         <?php include 'templates/single_or_double.html'; ?>
       </div>
       <div id="step-2">
-        <h2 class="StepTitle">Choose letterings</h2>
+        <div class="StepTitle">
+            <h4>Choose a Lettering Style</h4>
+            <h6>Choose your lettering style, type what you want on your charm below the selection,then click "Next" in the lower right.</h6>
+        </div>
         <?php include 'templates/charm_lettering.html'; ?>
       </div>
       <div id="step-3">
-        <h2 class="StepTitle">Choose border</h2>
+        <div class="StepTitle">
+            <h4>Choose a Border Style</h4>
+            <h6>Would you like a dot border on your charm? Choose yes or no then click "Next" in the lower right.</h6>
+        </div>
         <?php include 'templates/charm_border.html'; ?>
       </div>
       <div id="step-4">
-        <h2 class="StepTitle">Heart Charm</h2>
+        <div class="StepTitle">
+            <h4>Add a Heart Charm</h4>
+            <h6>Would you like to add a Heart Charm to your order? Choose Yes or No then click "Next" in the lower right.</h6>
+        </div>
         <?php include 'templates/charm_heart.html'; ?>
       </div>
       <div id="step-5">
-        <h2 class="StepTitle">Add Chain</h2>
+        <div class="StepTitle">
+            <h4>Add a Chain</h4>
+            <h6>Lastly, would you like to add a chain to your order? Make your decision then click "Next" in the lower right.</h6>
+        </div>
         <?php include 'templates/charm_chain.html'; ?>
       </div>
     </div>
   </div>
+
+  <div class="container">
 
   <div class="u-full-width">
     <div class="header">
@@ -56,11 +73,12 @@
     </div>
   </div>
 
-  <div class="container">
     <div class="row">
       <div id="initial-choices" class="six columns">
         <?php include 'templates/initial_choices.html'; ?>
       </div>
+    </div>
+    <div class="row">
       <div id="cart-container" class="six columns">
         <?php include 'templates/cart.html'; ?>
       </div>
