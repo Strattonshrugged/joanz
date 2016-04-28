@@ -65,14 +65,12 @@
   </div>
 
   <div class="container">
-
-  <div class="u-full-width">
-    <div class="header">
-      <div class="header-text">Joan Z Studio</div>
-      <div class="subheader-text">One of a kind and custom-made jewelry</div>
+    <div class="u-full-width">
+        <div class="header">
+          <div class="header-text">Joan Z Studio</div>
+          <div class="subheader-text">One of a kind and custom-made jewelry</div>
+        </div>
     </div>
-  </div>
-
     <div class="row">
       <div id="initial-choices" class="six columns">
         <?php include 'templates/initial_choices.html'; ?>
@@ -83,7 +81,6 @@
         <?php include 'templates/cart.html'; ?>
       </div>
     </div>
-
   </div>
 
 </body>
