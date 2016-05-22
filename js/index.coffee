@@ -1,7 +1,7 @@
 class CharmsViewModel
     constructor: (cartVM) ->
         @_cartVM = cartVM
-        
+
         @isCustomState = ko.observable(false)
 
         @designCharmBtn = {
@@ -187,7 +187,7 @@ class CharmsViewModel
         total = 0
 
         # add the charm to summary and item cost
-        # 
+        #
         charm = @_getSelected(@charms)
         summary = "A #{charm.type.toLowerCase()}"
         total += charm.cost
@@ -226,7 +226,7 @@ class CharmsViewModel
             if hasChain
                 summary += " a #{chain.summaryNote.toLowerCase()}"
                 total += chain.cost
-        
+
         @_cartVM.addToCart(summary, total, summary)
 
         # clear wizard
@@ -313,7 +313,7 @@ class CartViewModel
 
 
 
-        
+
 ready = ->
     # ported from stackoverflow question comment
     # http://stackoverflow.com/questions/12982587/how-to-build-a-textarea-with-character-counter-and-max-length
@@ -359,7 +359,7 @@ ready = ->
             when 1 # choose a charm
                 return hasSelection(charmsVM.charms)
             when 2 # choose a lettering
-                if hasSelection(charmsVM.letterings)                    
+                if hasSelection(charmsVM.letterings)
                     # TODO: check for a lettering?
                     return true
                 else

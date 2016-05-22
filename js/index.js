@@ -91,7 +91,7 @@
           summaryNote: '7-inch bracelet',
           cost: 1200
         }, {
-          imgUrl: 'images/no_chain.jpg',
+          imgUrl: 'images/noChainPlease.jpg',
           label: 'No Chain',
           sublabel: '',
           selected: ko.observable(false),
@@ -107,7 +107,7 @@
           summaryNote: 'Yes',
           cost: 2000
         }, {
-          imgUrl: 'images/single_charm_select.jpg',
+          imgUrl: 'images/noHeartCharm.jpg',
           label: 'No thank you',
           sublabel: '',
           selected: ko.observable(false),
