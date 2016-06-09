@@ -3,7 +3,7 @@
 <html>
 
 <head>
-<title>joanzstudio.com | One of a Kind and custom-made jewelry</title>
+<title>joanZstudio.com | One of a Kind and custom-made jewelry</title>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
@@ -40,4 +40,3 @@
     <h3>One of a kind and custom-made jewelry</h3>
   </div>
 </div>
-

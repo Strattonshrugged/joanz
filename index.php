@@ -19,7 +19,7 @@
   </script>
   <div id="custom-charm-wizard-dialog" class="u-full-width" style="display: none">
     <div id="custom-charm-wizard" class="swMain">
-      <ul>
+      <ul style="display: none;">
         <li><a href="#step-1"><span class="stepDesc">Step 1</span></a></li>
         <li><a href="#step-2"><span class="stepDesc">Step 2</span></a></li>
         <li><a href="#step-3"><span class="stepDesc">Step 3</span></a></li>
