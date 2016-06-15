@@ -31,9 +31,17 @@ body {
 }
 
 .header {
-  background-image: url('../images/header_no_type.png');
+  /*background-image: url('../images/header_no_type.png');
   background-size: 960px;
-  height: 125px;
+  height: 125px;*/
+}
+
+#header1    {
+    background-image: url('../images/emptyLeaf.png');
+}
+
+#header2    {
+    background-image: url('../images/introNecklace.png');
 }
 
 .stepheader {
