@@ -1,61 +1,68 @@
 <html>
-<head>
-  <title>joanzstudio.com | One of a Kind and custom-made jewelry</title>
+    <head>
+      <title>joanzalt</title>
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.2.0/knockout-min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
-  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-  <link rel="stylesheet" type="text/css" href="css/normalize.css">
-  <link rel="stylesheet" type="text/css" href="css/skeleton.css">
-  <link href="css/smart_wizard.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" type="text/css" href="css/main.css">
-</head>
-<body>
-  <script type="text/html" id="cart-item-template">
-    <?php include 'templates/cart_item.html'; ?>
-  </script>
+      <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+      <link rel="stylesheet" type="text/css" href="css/slick-theme.css"/>
+      <link rel="stylesheet" type="text/css" href="css/slick.css"/>
+      <link rel="stylesheet" type="text/css" href="css/main.css">
+    </head>
+    <body>
+        <div class="wrapper">
+            <?php include 'templates/header.html'; ?>
 
-    <?php include 'templates/wizard.html'; ?>
-
-  <div class="container">
-    <div class="u-full-width">
-        <div class="header" id="header1">
-          <div class="header-text">Joan Z Studio</div>
-          <div class="subheader-text">One of a kind and custom-made jewelry</div>
+            <div class="landing menu">
+                <img src="images/double_charm.jpg" id="fullCharm"/>
+                <img src="images/dots.jpg" id="tagOnly" />
+                <img src="images/heart_charm_spacer.jpg" id="heartOnly" />
+                <img src="images/ball_chain_7.jpg" id="chainOnly" />
+            </div>
+            <div class="tagFont menu">
+                <img src="images/small_type.jpg" id="smlText" />
+                <img src="images/mixed_type.jpg" id="mdmText" />
+                <img src="images/large_type.jpg" id="lrgText" />
+            </div>
+            <div class="tagText menu">
+                <form action="demo_form.asp">
+                  <input type="text" id="textInput">
+                  <br>
+                  <input type="submit" value="Submit">
+                </form>
+            </div>
+            <div class="border menu">
+                <img src="images/dots.jpg" id="dots" />
+                <img src="images/no_dots.jpg" id="noDots" />
+            </div>
+            <div class="heart menu">
+                <img src="images/heart_charm_spacer.jpg" id="heart"/>
+                <img src="images/noHeartCharm.jpg" id="noHeart" />
+            </div>
+            <div class="chain menu">
+                <img src="images/ball_chain_7.jpg" id="chain7" />
+                <img src="images/ball_chain_20.jpg" id="chain20" />
+                <img src="images/noChainPlease.jpg" id="noChain" />
+            </div>
+            <div>
+                ADD TO CART OR START OVER?
+            </div>
+            <?php include 'templates/altcart.html'; ?>
         </div>
-        <!-- <div class="header" id="header2">
-            <div class="header-text">Joan Z Studio</div>
-            <div class="subheader-text">One of a kind and custom-made jewelry</div>
-        </div> -->
-    </div>
+    </body>
 
-    <div class="row">
-      <div id="initial-choices" class="six columns">
-        <?php include 'templates/initial_choices.html'; ?>
-      </div>
-    </div>
-    <div class="row">
-      <div id="cart-container" class="six columns">
-        <?php include 'templates/cart.html'; ?>
-      </div>
-    </div>
-  </div>
-
-</body>
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-66288547-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-
-<script src="js/jquery.smartWizard.js"></script>
-<script src="js/index.js"></script>
+    <script> <!--GoogleAnalytics,KeepThis-->
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-66288547-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js">
+    </script>
+    <script src="js/index.js">
+    </script>
 </html>

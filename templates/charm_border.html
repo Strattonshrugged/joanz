@@ -1,9 +1,0 @@
-<div data-bind="foreach: borders">
-  <div class="ib fl tac">
-    <img class="tile" data-bind="css: { selected: selected(), unselected: !selected()}, attr: { src: imgUrl }, click: $parent.selectBorder">
-    <div class="imglabel">
-      <input type="checkbox" data-bind="checked: selected(), click: $parent.selectBorder" />
-      <label class="tileLabel" data-bind="text: label, css: { selected: selected() }"></label>
-    </div>
-  </div>
-</div>
